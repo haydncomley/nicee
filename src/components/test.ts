@@ -1,29 +1,27 @@
-import { component, computed, render, state } from "../nice";
+import { component, computed, render } from "../nice";
+import { Button } from "./button";
 import { SmallComponent } from "./small";
+import { Text } from "./text";
 
 export const TestComponent = component<{
     label: string
-}>((props) => {
-    const count = state(1);
-    
+    count: number
+}>(({ label, count }) => {
     const countTimeTen = computed(() => {
         return (count.get() * 10);
     }, [count]);
 
     const countIsEven = computed(() => {
-        return (count.get() % 2 === 0) ? SmallComponent({}) : 'Odd';
+        return (count.get() % 2 === 0) ? SmallComponent({}) : Button({ count: countTimeTen })
     }, [count]);
-    
-    setInterval(() => {
-        count.set(count.get() + 1);
-    }, 2000);
 
     return render`
         <div>
-            Is Odd? ${countIsEven}
+            Is Odd? <span>${countIsEven}</span>
+            ${Text({ count })}
             <p>Count: ${count}</p>
             <p>Count * 10: ${countTimeTen}</p>
-            <span>Label: ${props.label}</span>
+            <span>Label: ${label}</span>
         </div>
     `;
 });

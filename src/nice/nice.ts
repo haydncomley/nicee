@@ -1,7 +1,5 @@
 import { nextId, setParentId } from "./lib/utils";
 
-let makeLastComponentDirty: () => void;
-
 type NiceNode = NiceComponent<any> | NiceState<any>;
 
 interface NiceComponent<T extends NiceComponentProperties> {
@@ -24,6 +22,7 @@ interface NiceState<T> {
     listen: (listener: (newValue: T) => void) => void;
     textNodes: Text[];
     markers: Comment[][];
+    attributes: Record<string, HTMLElement[]>;
 }
 
 type NiceRenderTemplate = TemplateStringsArray;
@@ -52,8 +51,7 @@ export const app = (selector: string, fn: () => ReturnType<typeof render> | void
 };
 
 export const component = <T extends NiceComponentPropertyDefinitions>(fn: (props: NiceComponentPropertyTransformation<T>) => ReturnType<typeof render> | void) => {
-    const id = nextId();
-    setParentId(id);
+    let id = ''
 
     let isUpdating = false;
     let componentProps: NiceComponentPropertyTransformation<T> = {} as NiceComponentPropertyTransformation<T>;
@@ -72,7 +70,8 @@ export const component = <T extends NiceComponentPropertyDefinitions>(fn: (props
     }
 
     return (props: NiceComponentPropertyTransformation<T>) => {
-        makeLastComponentDirty = markDirty;
+        id = nextId();
+        setParentId(id);
         componentProps = props;
         render = fn(componentProps) as any;
 
@@ -90,9 +89,9 @@ export const state = <T = unknown>(value: T): NiceState<T> => {
     let _value = value;
     const id = nextId();
     const listeners: ((newValue: T) => void)[] = [];
-    const markDirty = makeLastComponentDirty;
     const nodes: Text[] = [];
     const markers: Comment[][] = [];
+    const attributes: Record<string, HTMLElement[]> = {};
 
     return {
         id,
@@ -111,6 +110,12 @@ export const state = <T = unknown>(value: T): NiceState<T> => {
                 _value = newValueSettled;
                 listeners.forEach((listener) => listener(newValueSettled));
 
+                Object.entries(attributes).forEach(([key, elements]) => {
+                    elements.forEach((el) => {
+                        el.setAttribute(key, newValueSettled as string);
+                    });
+                });
+
                 markers.forEach(([start, end]) => {
                     replaceNodesFrom(_value, start, end);
                 });
@@ -118,24 +123,30 @@ export const state = <T = unknown>(value: T): NiceState<T> => {
         },
         listen: (listener: (newValue: T) => void) => listeners.push(listener),
         textNodes: nodes,
-        markers: markers
+        markers: markers,
+        attributes,
     }
 }
 
-export const computed = <T = unknown>(fn: () => T, deps: NiceState<any>[]): NiceState<T> => {
+export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Event ? U : never) => T, deps?: NiceState<any>[]): NiceState<T> => {
     const _value = state<T>(undefined as T);
     const lastDeps: string | undefined = undefined;
 
-    const doCompute = () => {
-        const newValue = fn();
-        const newDeps = serialiseDeps(deps);
-        if (newValue !== _value.get() && newDeps !== lastDeps) {
+    const doCompute = (e?: any) => {
+        const isEvent = !!e && !deps;
+        const newValue = fn(e);
+        const newDeps = serialiseDeps(deps ?? []);
+        if (newValue !== _value.get() && newDeps !== lastDeps && !isEvent) {
             _value.set(newValue);
         }
     }
 
-    deps.forEach((dep) => dep.listen(doCompute));
-    doCompute();
+    if (deps) {
+        deps.forEach((dep) => dep.listen(doCompute));
+        doCompute();
+    } else {
+        _value.listen(doCompute);
+    }
 
     return _value
 };
@@ -184,7 +195,10 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
         });
 
         Object.keys(stateToReattach).forEach((id) => {
-            html = html.replace(id, `<!-- START --><span data-reattach-state="${id}"></span><!-- END -->`);
+            const beforeId = html.split(id)[0];
+            const isAttributeBind = matchAttributeBinding(beforeId);
+            const replacer = isAttributeBind ? `state-${id}` : `<!-- @ --><span data-reattach-state="${id}"></span><!-- # -->`;
+            html = html.replace(id, replacer);
         });
 
         const htmlAsDom = renderAsHTML(html);
@@ -205,9 +219,37 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
 
         Object.keys(childrenToReattach).forEach((id) => {
             htmlAsDom.querySelectorAll(`[data-reattach-child="${id}"]`).forEach((el) => {
-                el.replaceWith(childrenToReattach[id] as HTMLElement);
+                el.replaceWith((childrenToReattach[id] as HTMLElement).children[0]);
             });
         });
+
+        htmlAsDom.querySelectorAll('*').forEach((el) => {
+            Array.from(el.attributes).forEach((attr) => {
+                const isAction = attr.name.startsWith('on-');
+                const isSetter = attr.name.startsWith('set-');
+                const stateId = attr.value.match(/state-(.+)/);
+                if (stateId) {
+                    const state = stateToReattach[stateId[1]];
+                    if (!state) return;
+                    if (!state.attributes[attr.name]) state.attributes[attr.name] = [];
+
+                    if (isAction) {
+                        el.removeAttribute(attr.name);
+                        el.addEventListener(attr.name.slice(3), (e) => state.set(e as any));
+                    } else if (isSetter) {
+                        el.removeAttribute(attr.name);
+                        state.listen((newValue) => {
+                            (el as any)[attr.name.slice(4)] = newValue;
+                        });
+                    } else {
+                        state.attributes[attr.name].push(el as HTMLElement);
+                        el.setAttribute(attr.name, (state.get() ?? '') as string);
+                    }
+
+                }
+            });
+        });
+
 
         return htmlAsDom;
     }
@@ -245,4 +287,23 @@ const renderAsHTML = (html: string) => {
     dom.innerHTML = html;
 
     return dom;
+}
+
+const matchAttributeBinding = (str: string) => {
+    const regex = /.+\b(.+)="$/gm;
+    let m;
+    const matches: string[] = [];
+
+    while ((m = regex.exec(str)) !== null) {
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        
+        m.forEach((match) => {
+            matches.push(match);
+        });
+    }
+
+    if (matches.length === 2) return matches[1];
+    else return undefined
 }

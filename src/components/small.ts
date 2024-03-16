@@ -7,9 +7,9 @@ export const SmallComponent = component(() => {
         return (count.get() % 2 === 0) ? 'Small Even' : 'Small Odd';
     }, [count]);
     
-    setInterval(() => {
-        count.set(count.get() + 1);
-    }, 200);
+    // setInterval(() => {
+    //     count.set(count.get() + 1);
+    // }, 200);
     
     return render`<small>${countIsEven}</small>`;
 });
