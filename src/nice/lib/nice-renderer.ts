@@ -76,6 +76,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
             Array.from(el.attributes).forEach((attr) => {
                 const isAction = attr.name.startsWith('on-');
                 const isSetter = attr.name.startsWith('set-');
+                const isRef = attr.name === 'ref';
                 const stateId = attr.value.match(/state-(.+)/);
                 if (stateId) {
                     const state = stateToReattach[stateId[1]];
@@ -91,6 +92,9 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                             (el as any)[attr.name.slice(4)] = newValue;
                         });
                         (el as any)[attr.name.slice(4)] = state.get();
+                    } else if(isRef) {
+                        el.removeAttribute(attr.name);
+                        state.set((el as any));
                     } else {
                         state.attributes[attr.name].push(el as HTMLElement);
                         el.setAttribute(attr.name, (state.get() ?? '') as string);

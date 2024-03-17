@@ -85,3 +85,7 @@ export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Eve
 
     return _value as NiceState<U extends Event ? U : T>;
 };
+
+export const ref = <T extends HTMLElement>(fn?: (element: T) => void) => {
+    return computed<T, T>((fn ? fn : () => {}) as any);
+}

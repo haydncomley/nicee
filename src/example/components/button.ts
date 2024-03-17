@@ -17,7 +17,7 @@ export const Button = component<{
 
     return render`
         <button on-click=${onButtonClick}>
-            ${buttonLabel}
+            <span>${buttonLabel}</span>
         </button>
     `
 });
