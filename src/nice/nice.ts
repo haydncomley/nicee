@@ -239,6 +239,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                         state.listen((newValue) => {
                             (el as any)[attr.name.slice(4)] = newValue;
                         });
+                        (el as any)[attr.name.slice(4)] = state.get();
                     } else {
                         state.attributes[attr.name].push(el as HTMLElement);
                         el.setAttribute(attr.name, (state.get() ?? '') as string);
@@ -328,4 +329,15 @@ const matchAttributeBinding = (str: string) => {
 
     if (matches.length === 2) return matches[1];
     else return undefined
+}
+
+export const store = <T = object>(values: T) => {
+    const theStore = Object.entries(values as { [s: string]: unknown }).reduce((acc, [key, value]) => {
+        acc[key] = state(value);
+        return acc;
+    }, {} as Record<string, NiceState<any>>);
+    
+    return {
+        storeState: (key: keyof T) => theStore[key as string]
+    };
 }

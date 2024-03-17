@@ -1,7 +1,9 @@
-import { NiceState, component, computed, render, state } from "../nice";
+import { storeState } from "../main";
+import { NiceState, component, computed, render } from "../nice";
 
 export const Text = component<{ count: NiceState<number> }>(({ count }) => {
-    const value = state('');
+    const value = storeState('name');
+
     
     const inputClass = computed(() => {
         return `my-class-${count.get()}`
