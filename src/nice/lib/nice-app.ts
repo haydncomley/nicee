@@ -6,7 +6,7 @@ export const app = (selector: string, fn: () => ReturnType<typeof render> | void
     const root = document.querySelector(selector);
     if (!root) throw new Error(`Failed to attach - Element "${selector}" not found in the DOM.`);
 
-    const rootComponent = component(fn)({});
+    const rootComponent = component(fn)();
 
     rootComponent.markDirty = () => {
         const html = rootComponent.render(nextId());

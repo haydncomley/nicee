@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "isolatedModules": false,
+    "target": "ES5"
+  },
+  "include": ["./src/nice/index.ts"]
+}

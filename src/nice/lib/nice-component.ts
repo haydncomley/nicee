@@ -1,5 +1,8 @@
-import { render } from "./nice-renderer";
+import { NiceRenderFunctionReturn } from "./nice-renderer";
+import { NiceState } from "./nice-state";
 import { nextId, setParentId } from "./utils";
+
+export type NiceNode = NiceComponent<any> | NiceState<any>;
 
 export interface NiceComponent<T> {
     type: 'component';
@@ -11,7 +14,7 @@ export interface NiceComponent<T> {
 
 export type NiceComponentPropertyDefinitions = Record<string, any>;
 
-export const component = <T extends NiceComponentPropertyDefinitions | undefined = undefined>(fn: (props: T) => ReturnType<typeof render> | void) => {
+export const component = <T extends NiceComponentPropertyDefinitions | undefined = undefined>(fn: (props: T) => NiceRenderFunctionReturn | void) => {
     let id = ''
 
     let isUpdating = false;

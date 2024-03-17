@@ -1,15 +1,29 @@
 {
-  "name": "nice-components",
-  "private": true,
-  "version": "0.0.0",
+  "name": "nicee",
+  "description": "A small framework for creating nice little web applications.",
+  "version": "0.0.1",
   "type": "module",
+  "main": "./out/index.cjs",
+  "module": "./out/index.js",
+  "types": "./out/index.d.ts",
+  "src": "./src/nice/index.ts",
+  "author": "Haydn Comley",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "make": "yarn make:types && yarn make:lib:cjs && yarn make:lib:esm",
+    "make:types": "tsc --project ./tsconfig.out.json",
+    "make:lib:cjs": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.cjs --format=cjs",
+    "make:lib:esm": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.js --format=esm --platform=node"
   },
+  "files": [
+    "out",
+    "src/nice"
+  ],
   "devDependencies": {
     "typescript": "^5.2.2",
-    "vite": "^5.1.6"
+    "vite": "^5.1.6",
+    "esbuild": "0.20.2"
   }
 }

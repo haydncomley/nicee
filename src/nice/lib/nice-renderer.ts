@@ -1,9 +1,9 @@
-import { NiceNode } from "../nice";
-import { NiceComponent } from "./nice-component";
+import { NiceComponent, NiceNode } from "./nice-component";
 import { NiceState } from "./nice-state";
 
 export type NiceRenderTemplate = TemplateStringsArray;
 export type NiceRenderArgs = NiceNode[];
+export type NiceRenderFunctionReturn = ReturnType<typeof render>;
 
 export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) => {
     const debugRender = false;
