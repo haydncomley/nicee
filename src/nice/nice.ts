@@ -2,7 +2,7 @@ import { nextId, setParentId } from "./lib/utils";
 
 type NiceNode = NiceComponent<any> | NiceState<any>;
 
-interface NiceComponent<T extends NiceComponentProperties> {
+interface NiceComponent<T> {
     type: 'component';
     id: string;
     render: (id: string) => HTMLElement | void;
@@ -10,11 +10,9 @@ interface NiceComponent<T extends NiceComponentProperties> {
     properties: T;
 }
 
-type NiceComponentProperties = Record<string, NiceState<any>>;
 type NiceComponentPropertyDefinitions = Record<string, any>;
-type NiceComponentPropertyTransformation<T extends NiceComponentPropertyDefinitions> = { [K in keyof T]: NiceState<T[K]> };
 
-interface NiceState<T> {
+export interface NiceState<T> {
     type: 'state';
     id: string;
     get: () => T;
@@ -25,8 +23,8 @@ interface NiceState<T> {
     attributes: Record<string, HTMLElement[]>;
 }
 
-type NiceRenderTemplate = TemplateStringsArray;
-type NiceRenderArgs = NiceNode[];
+export type NiceRenderTemplate = TemplateStringsArray;
+export type NiceRenderArgs = NiceNode[];
 
 export const app = (selector: string, fn: () => ReturnType<typeof render> | void) => {
     const root = document.querySelector(selector);
@@ -50,11 +48,11 @@ export const app = (selector: string, fn: () => ReturnType<typeof render> | void
     rootComponent.markDirty();
 };
 
-export const component = <T extends NiceComponentPropertyDefinitions>(fn: (props: NiceComponentPropertyTransformation<T>) => ReturnType<typeof render> | void) => {
+export const component = <T extends NiceComponentPropertyDefinitions>(fn: (props: T) => ReturnType<typeof render> | void) => {
     let id = ''
 
     let isUpdating = false;
-    let componentProps: NiceComponentPropertyTransformation<T> = {} as NiceComponentPropertyTransformation<T>;
+    let componentProps: T = {} as T;
 
     let render = (id: string) => {};
 
@@ -69,7 +67,7 @@ export const component = <T extends NiceComponentPropertyDefinitions>(fn: (props
         }, 0);
     }
 
-    return (props: NiceComponentPropertyTransformation<T>) => {
+    return (props: T) => {
         id = nextId();
         setParentId(id);
         componentProps = props;
@@ -151,7 +149,7 @@ export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Eve
     return _value
 };
 
-export const serialiseDeps = (deps: NiceState<any>[]) => {
+const serialiseDeps = (deps: NiceState<any>[]) => {
     return deps.map((dep) => JSON.stringify(dep.get())).join('');
 }
 
@@ -272,14 +270,38 @@ const replaceNodesFrom = (value: unknown | NiceComponent<any>, start: Comment, e
         childrenBetweenMarkers.forEach((node) => node!.remove());
         if (valueValue) Array.from(valueValue.children).reverse().forEach((child) => start.after(child));
     } else {
-        if (childrenBetweenMarkers.length === 1 && childrenBetweenMarkers[0].nodeType === Node.TEXT_NODE) {
-            childrenBetweenMarkers[0]!.textContent = value as string;
-        } else {
-            childrenBetweenMarkers.forEach((node) => node!.remove());
-            const text = document.createTextNode(value as string);
-            start.after(text);
-        }
+        const valueAsArray = Array.isArray(value) ? value : [value];
+        const valuesToRender = valueAsArray.map((v) => {
+            if (typeof v === 'object' && (v as any).type === 'component') {
+                const newValueComponent = v as unknown as NiceComponent<any>;
+                return newValueComponent.render(newValueComponent.id);
+            } else {
+                return v;
+            }
+        });
+
+        childrenBetweenMarkers.forEach((node) => node!.remove());
+        valuesToRender.reverse().forEach((valueValue) => {
+            if (valueValue instanceof HTMLElement) Array.from(valueValue.children).reverse().forEach((child) => start.after(child));
+            else {
+                const text = document.createTextNode(valueValue as string);
+                start.after(text);
+            }
+        });
     }
+}
+
+export const mapper = <T = number>(data: T, fn: ((value: T, index: number) => any)) => {
+    let array: any[] = [];
+    if (typeof data === 'number') {
+        array = Array.from({ length: data }, (_, i) => i + 1);
+    } else if (typeof data === 'object') {
+        array = Array.from(Object.entries(data as any));
+    } else if (Array.isArray(data)) {
+        array = data;
+    }
+
+    return array.map((value, index) => fn(value, index));
 }
 
 const renderAsHTML = (html: string) => {

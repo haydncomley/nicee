@@ -1,6 +1,6 @@
-import { component, computed, render, state } from "../nice";
+import { NiceState, component, computed, render, state } from "../nice";
 
-export const Text = component<{ count: number }>(({ count }) => {
+export const Text = component<{ count: NiceState<number> }>(({ count }) => {
     const value = state('');
     
     const inputClass = computed(() => {
@@ -12,7 +12,6 @@ export const Text = component<{ count: number }>(({ count }) => {
     })
 
     const onClick = computed<KeyboardEvent>((e) => {
-        // value.set((e.target as HTMLInputElement).value);
         count.set(count.get() + 1);
         value.set('Hello World ' + count.get());
     })

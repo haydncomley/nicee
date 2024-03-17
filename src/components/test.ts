@@ -1,18 +1,18 @@
-import { component, computed, render } from "../nice";
+import { NiceState, component, computed, render } from "../nice";
 import { Button } from "./button";
 import { SmallComponent } from "./small";
 import { Text } from "./text";
 
 export const TestComponent = component<{
-    label: string
-    count: number
+    label: NiceState<string>
+    count: NiceState<number>
 }>(({ label, count }) => {
     const countTimeTen = computed(() => {
         return (count.get() * 10);
     }, [count]);
 
     const countIsEven = computed(() => {
-        return (count.get() % 2 === 0) ? SmallComponent({}) : Button({ count: countTimeTen })
+        return (count.get() % 2 === 0) ? SmallComponent({}) : Button({ count: countTimeTen, extra: 1 })
     }, [count]);
 
     return render`
