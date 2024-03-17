@@ -21,5 +21,5 @@ export const getParentId = () => {
 }
 
 export const serialiseDeps = (deps: NiceState<any>[]) => {
-    return deps.map((dep) => JSON.stringify(dep.get())).join('');
+    return deps.map((dep) => JSON.stringify(Object.hasOwn(dep, 'get') && dep.get())).join('');
 }

@@ -12,6 +12,8 @@ export interface NiceState<T> {
     attributes: Record<string, HTMLElement[]>;
 }
 
+export type NiceProp<T> = T | NiceState<T>;
+
 export const state = <T = unknown>(value: T): NiceState<T> => {
     let _value = value;
     const id = nextId();
@@ -55,21 +57,28 @@ export const state = <T = unknown>(value: T): NiceState<T> => {
     }
 }
 
-export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Event ? U : never) => T, deps?: NiceState<any>[]): NiceState<T> => {
+export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Event ? U : never) => T, deps?: (NiceState<any> | unknown)[]): NiceState<T> => {
     const _value = state<T>(undefined as T);
     const lastDeps: string | undefined = undefined;
+    const niceDeps = (deps ?? []).map((x) => {
+        console.log(x);
+        if (x && typeof x === 'object' && Object.hasOwn(x, 'listen')) {
+            return x;
+        }
+        return false;
+    }).filter(Boolean) as NiceState<any>[];
 
     const doCompute = (e?: any) => {
         const isEvent = !!e && !deps;
         const newValue = fn(e);
-        const newDeps = serialiseDeps(deps ?? []);
+        const newDeps = serialiseDeps(niceDeps);
         if (newValue !== _value.get() && newDeps !== lastDeps && !isEvent) {
             _value.set(newValue);
         }
     }
 
     if (deps) {
-        deps.forEach((dep) => dep.listen(doCompute));
+        niceDeps.forEach((dep) => dep.listen(doCompute));
         doCompute();
     } else {
         _value.listen(doCompute);

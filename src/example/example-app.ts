@@ -1,4 +1,5 @@
 import { app, computed, render, store } from "../nice";
+import { Button } from "./components/button";
 import { Menu } from "./components/menu";
 
 export const [ globalStore ] = store({
@@ -14,7 +15,7 @@ app('#app', () => {
     });
 
     const menuStyles = computed(() => {
-        return isMenuOpen.get() ? 'test' : undefined;
+        return (isMenuOpen.get() ? 'test' : '') as string;
     }, [isMenuOpen]);
 
     return render`
@@ -22,6 +23,7 @@ app('#app', () => {
             ${Menu()}
             
             <h1>N.I.C.E.</h1>
+            ${Button({ label: 'Click me!' })}
         </div>
     `;
 });
