@@ -22,9 +22,14 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
             const nextVar = args[index];
             html += block;
             if (nextVar === undefined) return;
-
+            
             const randomId = Math.random().toString(36).substring(7);
 
+            if (typeof nextVar !== 'object') {
+                html += nextVar;
+                return;
+            }
+            
             switch (nextVar.type) {
                 case 'component':
                     html += randomId;

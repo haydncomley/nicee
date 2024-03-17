@@ -3,7 +3,13 @@ import { Bar } from "../components/bar";
 import { Button } from "../components/button";
 import { Logo } from "../components/logo";
 
-export const HeroSection = component(() => {
+import styles from './hero.module.scss';
+
+export const HeroSection = component<{
+    scrollNote?: string
+}>(({ 
+    scrollNote
+ }) => {
     const count = state(0);
     
     const addCount = computed<MouseEvent>(() => {
@@ -19,19 +25,17 @@ export const HeroSection = component(() => {
     }, [count])
 
     return render`
-        <section class="fullPage">
-            <div class="fullPageBars">
+        <section class=${styles.fullPage}>
+            <div class=${styles.fullPageBars}>
                 ${backgroundBars}
             </div>
 
-            <div class="fullPageContent">
+            <div class=${styles.fullPageContent}>
                 ${Logo()}
                 ${Button({ label: buttonLabel, onClick: addCount })}
             </div>
 
-            <span class="fullPageTag">
-                Scroll Down
-            </span>
+            <span class=${styles.fullPageTag}>${scrollNote}</span>
         </section>
     `
 });

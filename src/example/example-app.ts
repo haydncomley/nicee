@@ -1,9 +1,9 @@
 import { app, render, store } from "../nice";
+import { HeroSection } from "./sections/hero";
 import { ThemeWidget } from "./components/theme-widget";
 
-import './reset.css';
-import { HeroSection } from "./sections/hero";
-import './styles.css';
+import './reset.scss';
+import './styles.scss';
 
 export const [ globalStore ] = store({
     appName: 'haydn',
@@ -13,7 +13,7 @@ export const [ globalStore ] = store({
 app('#app', () => {
     return render`
         <main>
-            ${HeroSection()}
+            ${HeroSection({})}
             ${ThemeWidget()}
         </main>
     `;

@@ -9,7 +9,7 @@ import { mapper, valueOf as valueOfInternal } from './lib/nice-utils';
 type NiceState<T> = Pick<NiceStateInternal<T>, 'get' | 'set'>; 
 type NiceProp<T> = T | NiceState<T>; 
 type NiceComponent<T> = Omit<NiceComponentInternal<T>, keyof NiceComponentInternal<T>>
-type NiceNode = NiceComponent<any> | NiceState<any>;
+type NiceNode = NiceComponent<any> | NiceState<any> | unknown;
 type NiceRef<T> = Pick<NiceState<T extends Event ? T : T>, 'get'>;
 
 const state = stateInternal as <T = unknown>(value: T) => NiceState<T>;

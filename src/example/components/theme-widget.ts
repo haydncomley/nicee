@@ -2,6 +2,8 @@ import { component, computed, ref, render, state } from "../../nice";
 import { hexToRgb, rgbToHex, shiftHue } from "../lib/utils";
 import { Button } from "./button";
 
+import styles from './theme-widget.module.scss'
+
 export const ThemeWidget = component(() => {
     const inputRef = ref<HTMLDivElement>();
     const currentColor = state(getComputedStyle(document.body).getPropertyValue('--theme-primary'));
@@ -25,7 +27,7 @@ export const ThemeWidget = component(() => {
     })
 
     return render`
-        <div class="themeWidget" on-click=${onClick}>
+        <div class=${styles.themeWidget} on-click=${onClick}>
             ${Button({ label: 'Change Theme', onClick })}
             <input type="color" ref=${inputRef} on-input=${onColorChange} set-value=${currentColorHex}>
         </div>

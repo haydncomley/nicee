@@ -1,5 +1,7 @@
 import { NiceProp, NiceState, component, computed, render, valueOf } from "../../nice";
 
+import styles from './button.module.scss'
+
 export const Button = component<{
     label: NiceProp<string>
     onClick?: NiceState<MouseEvent>
@@ -16,7 +18,7 @@ export const Button = component<{
     });
 
     return render`
-        <button on-click=${onButtonClick}>
+        <button class=${styles.button} on-click=${onButtonClick}>
             <span>${buttonLabel}</span>
         </button>
     `

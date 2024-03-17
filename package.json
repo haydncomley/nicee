@@ -23,8 +23,10 @@
     "src/nice"
   ],
   "devDependencies": {
+    "easy-theme": "1.0.71",
+    "esbuild": "0.20.2",
+    "sass": "1.72.0",
     "typescript": "^5.2.2",
-    "vite": "^5.1.6",
-    "esbuild": "0.20.2"
+    "vite": "^5.1.6"
   }
 }

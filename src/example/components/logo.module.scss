@@ -1,0 +1,11 @@
+@use 'easy-theme' as theme;
+
+.logo {
+    font-size: 8rem;
+    font-weight: 800;
+    color: rgb(var(--theme-contrast));
+
+    @include theme.Mobile {
+        font-size: 6rem;
+    }
+}
