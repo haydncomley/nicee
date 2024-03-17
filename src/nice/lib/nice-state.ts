@@ -57,7 +57,7 @@ export const state = <T = unknown>(value: T): NiceState<T> => {
     }
 }
 
-export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Event ? U : never) => T, deps?: (NiceState<any> | unknown)[]): NiceState<U extends Event ? U : T> => {
+export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Event ? U : unknown) => T, deps?: (NiceState<any> | unknown)[]): NiceState<U extends Event ? U : T> => {
     const _value = state<T>(undefined as T);
     const lastDeps: string | undefined = undefined;
     const niceDeps = (deps ?? []).map((x) => {

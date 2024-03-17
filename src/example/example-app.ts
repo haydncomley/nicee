@@ -21,7 +21,6 @@ app('#app', () => {
     return render`
         <div class=${menuStyles}>
             ${Menu()}
-            
             <h1>N.I.C.E.</h1>
             ${Button({ label: 'Click me!', onClick: toggleMenu })}
         </div>

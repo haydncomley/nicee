@@ -11,7 +11,7 @@ export const Button = component<{
         return valueOf(label);
     }, [label])
 
-    const onButtonClick = computed((e) => {
+    const onButtonClick = computed<MouseEvent>((e) => {
         if (onClick) onClick.set(e);
     });
 
