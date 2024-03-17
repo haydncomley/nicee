@@ -10,20 +10,20 @@ export const [ globalStore ] = store({
 app('#app', () => {
     const isMenuOpen = globalStore('isMenuOpen');
     
-    const toggleMenu = computed(() => {
+    const toggleMenu = computed<MouseEvent>(() => {
         isMenuOpen.set(!isMenuOpen.get());
     });
 
     const menuStyles = computed(() => {
-        return (isMenuOpen.get() ? 'test' : '') as string;
+        return (isMenuOpen.get() ? 'test' : '');
     }, [isMenuOpen]);
 
     return render`
-        <div class=${menuStyles} on-click=${toggleMenu}>
+        <div class=${menuStyles}>
             ${Menu()}
             
             <h1>N.I.C.E.</h1>
-            ${Button({ label: 'Click me!' })}
+            ${Button({ label: 'Click me!', onClick: toggleMenu })}
         </div>
     `;
 });
