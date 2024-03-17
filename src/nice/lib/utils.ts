@@ -1,4 +1,4 @@
-let parentId = 'R';
+import { NiceState } from "../nice";
 
 export const nextId = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -10,10 +10,16 @@ export const nextId = () => {
     return id;
 };
 
+let parentId = nextId();
+
 export const setParentId = (newParentId: string) => {
     parentId = newParentId;
 };
 
 export const getParentId = () => {
     return parentId;
+}
+
+export const serialiseDeps = (deps: NiceState<any>[]) => {
+    return deps.map((dep) => JSON.stringify(dep.get())).join('');
 }
