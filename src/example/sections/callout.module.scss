@@ -1,0 +1,12 @@
+.calloutSection {
+    width: 100%;
+    padding: 4rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom right, rgb(var(--theme-primary)), rgb(var(--theme-secondary)));
+    color: rgb(var(--theme-primary-contrast));
+}

@@ -4,6 +4,7 @@ import { ThemeWidget } from "./components/theme-widget";
 
 import './reset.scss';
 import './styles.scss';
+import { CalloutSection } from "./sections/callout";
 
 export const [ globalStore ] = store({
     appName: 'haydn',
@@ -13,8 +14,10 @@ export const [ globalStore ] = store({
 app('#app', () => {
     return render`
         <main>
-            ${HeroSection({})}
             ${ThemeWidget()}
+
+            ${HeroSection({})}
+            ${CalloutSection({ header: 'Hello World' })}
         </main>
     `;
 });
