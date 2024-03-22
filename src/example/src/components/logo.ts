@@ -1,5 +1,5 @@
-import { component, render } from "../../nice";
-import { globalStore } from "../example-app";
+import { component, render } from "../../../nice";
+import { globalStore } from "../app";
 
 import styles from './logo.module.scss'
 

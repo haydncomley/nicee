@@ -1,4 +1,4 @@
-import { NiceProp, NiceState, component, computed, render, valueOf } from "../../nice";
+import { type NiceProp, type NiceState, component, computed, render, valueOf } from "../../../nice";
 
 import styles from './button.module.scss'
 

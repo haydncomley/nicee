@@ -1,4 +1,4 @@
-import { component, computed, ref, render, state } from "../../nice";
+import { component, computed, hasWindow, ref, render, state } from "../../../nice";
 import { hexToRgb, rgbToHex, shiftHue } from "../lib/utils";
 import { Button } from "./button";
 
@@ -6,7 +6,7 @@ import styles from './theme-widget.module.scss'
 
 export const ThemeWidget = component(() => {
     const inputRef = ref<HTMLDivElement>();
-    const currentColor = state(getComputedStyle(document.body).getPropertyValue('--theme-primary'));
+    const currentColor = state(hasWindow ? getComputedStyle(document.body).getPropertyValue('--theme-primary') : '');
     const currentColorHex = computed(() => rgbToHex(currentColor.get()), [currentColor]);
 
     const onColorChange = computed<MouseEvent>((e) => {
@@ -15,9 +15,11 @@ export const ThemeWidget = component(() => {
     });
 
     computed(() => {
-        const body = document.querySelector('body');
-        body!.style.setProperty('--theme-primary', currentColor.get());
-        body!.style.setProperty('--theme-secondary', shiftHue(currentColor.get(), .2));
+        if (hasWindow) {
+            const body = document.querySelector('body');
+            body!.style.setProperty('--theme-primary', currentColor.get());
+            body!.style.setProperty('--theme-secondary', shiftHue(currentColor.get(), .2));
+        }
     }, [currentColor]);
 
     const onClick = computed<MouseEvent>(() => {

@@ -1,5 +1,4 @@
-import { component, computed, mapper, render, state } from "../../nice";
-import { Bar } from "../components/bar";
+import { component, computed, render, state } from "../../../nice";
 import { Button } from "../components/button";
 import { Logo } from "../components/logo";
 
@@ -10,7 +9,7 @@ export const HeroSection = component<{
 }>(({ 
     scrollNote
  }) => {
-    const count = state(0);
+    const count = state(2);
     
     const addCount = computed<MouseEvent>(() => {
         count.set(count.get() + 1);
@@ -20,16 +19,8 @@ export const HeroSection = component<{
         return `Count ${count.get()}`;
     }, [count]);
 
-    const backgroundBars = computed(() => {
-        return mapper(count.get(), (i) => Bar({ value: i, isInstant: i < count.get() }));
-    }, [count])
-
     return render`
         <section class=${styles.fullPage}>
-            <div class=${styles.fullPageBars}>
-                ${backgroundBars}
-            </div>
-
             <div class=${styles.fullPageContent}>
                 ${Logo()}
                 ${Button({ label: buttonLabel, onClick: addCount })}

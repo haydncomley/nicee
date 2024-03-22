@@ -1,4 +1,4 @@
-import { component, computed, render, state } from "../../nice";
+import { component, computed, render, state } from "../../../nice";
 import { deterministicRandom } from "../lib/utils";
 
 import styles from './bar.module.scss';

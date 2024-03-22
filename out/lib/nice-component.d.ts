@@ -4,7 +4,10 @@ export type NiceNode = NiceComponent<any> | NiceState<any>;
 export interface NiceComponent<T> {
     type: 'component';
     id: string;
-    render: (id: string) => HTMLElement | void;
+    render: (id: string) => {
+        html: string;
+        hydrate: () => HTMLDivElement;
+    };
     markDirty: () => void;
     properties: T;
 }

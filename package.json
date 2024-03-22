@@ -11,12 +11,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:example": "cd src/example && yarn build",
     "make": "yarn make:types && yarn make:lib:cjs && yarn make:lib:esm",
     "make:types": "tsc --project ./tsconfig.out.json",
     "make:lib:cjs": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.cjs --format=cjs",
     "make:lib:esm": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.js --format=esm --platform=node",
-    "deploy": "yarn build && firebase deploy --only=hosting"
+    "deploy": "yarn build:example  && firebase deploy --only=hosting"
   },
   "files": [
     "out",
