@@ -1,0 +1,65 @@
+.link {
+    color: rgb(var(--theme-contrast));
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    animation-duration: 2s;
+    transition: .1s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+        color: rgb(var(--theme-secondary));
+        transform: scale(0.95);
+
+        .linkWiggle {
+            transform: translateY(calc(55% - .1em)) scaleY(0.75);
+
+            &::after {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .linkWiggle {
+        &::after {
+            animation: slideLeft 0.5s infinite linear;
+        }
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateY(-50%) translateX(0%);
+    }
+    100% {
+        transform: translateY(-50%) translateX(-0.6em);
+    }
+}
+
+.linkWiggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(55%) scaleY(1);
+    overflow: hidden;
+    transition: .1s ease;
+    display: inline-block;
+    
+    &::after {
+        pointer-events: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: transparent;
+        content: attr(data-label)attr(data-label);
+        text-decoration: underline;
+        text-decoration-style: wavy;
+        text-decoration-color: rgb(var(--theme-secondary));
+        text-decoration-skip-ink: none;
+        transform: translateY(-50%);
+        opacity: 0.75;
+        transition: .1s ease;
+    }
+}

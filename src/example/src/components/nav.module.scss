@@ -1,0 +1,95 @@
+@use 'easy-theme' as theme;
+
+.nav {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: rgba(var(--theme-background), 1);
+    border: .2rem solid rgb(var(--theme-primary));
+    z-index: 5;
+    display: flex;
+
+    @include theme.Mobile {
+        right: 0;
+        border-radius: 1rem 0 0 1rem;
+        border-right: none;
+        padding: 0.75rem;
+        padding-left: 1rem;
+
+        &::after {
+            content: '';
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0,0,0, 0);
+            pointer-events: none;
+            transition: .2s ease;
+        }
+    
+        &[data-is-open="true"]::after {
+            background-color: rgba(0,0,0, .5);
+            backdrop-filter: blur(0.2rem);
+            pointer-events: auto;
+        }
+    }
+}
+
+.navButton {
+    height: 2rem;
+    width: 2rem;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 1;
+
+    svg {
+        height: 100%;
+        width: 100%;
+
+        path {
+            stroke: rgb(var(--theme-contrast));
+        }
+    }
+
+    @include theme.NotMobile {
+        display: none
+    };
+}
+
+.navContent {
+    display: flex;
+    gap: .5rem;
+    z-index: 10;
+
+    @include theme.Mobile {
+        position: fixed;
+        top: 6rem;
+        right: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 1rem 0 0 1rem;
+        background-color: rgba(var(--theme-background), 1);
+        border: .2rem solid rgb(var(--theme-secondary));
+        border-right: none;
+        padding: 1.25rem;
+        transform: translateX(100%);
+        transition: .2s ease;
+
+        [data-is-open="true"] & {
+            transform: translateX(0%);
+        }
+    };
+}
+
+.navDivide {
+    opacity: 0.5;
+}

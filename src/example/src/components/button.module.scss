@@ -1,7 +1,7 @@
 .button {
     font-family: inherit;
     padding: 0.8rem 1.4rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
     background: rgb(var(--theme-primary));
     background: linear-gradient(to bottom right, rgb(var(--theme-primary)), rgb(var(--theme-secondary)));
@@ -51,6 +51,20 @@
         span {
             transform: scale(1.075);
             color: rgb(var(--theme-primary));
+        }
+    }
+
+    &:active {
+        transform: scale(0.95);
+        box-shadow: 0 0.15rem 1.5rem rgba(var(--theme-primary), .85);
+
+
+        &::before {
+            opacity: 0.9;
+        }
+
+        span {
+            transform: scale(0.98);
         }
     }
 }

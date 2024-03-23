@@ -72,16 +72,11 @@ export function hexToRgb(hex: string): string {
 }
 
 export function deterministicRandom(seed: number, min: number, max: number): number {
-    const random = (): number => {
-        const x = Math.sin(seed++) * 10000;
-        return x - Math.floor(x);
-    };
-
-    const randomInt = (min: number, max: number): number => {
-        return Math.floor(random() * (max - min + 1) + min);
-    };
-
-    return randomInt(min, max);
+    const today = new Date();
+    const dateSeed = today.getDate() + today.getMonth() + today.getFullYear();
+    const nextSeed = (seed * 1103515245 + 12345 + dateSeed) % 2147483648;
+    const range = max - min + 1;
+    return min + (nextSeed % range);
 }
 
 export function rgbToHex(rgb: string): string {

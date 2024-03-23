@@ -54,12 +54,14 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
 
             const stateToRender = stateToReattach[id].get();
             let value = stateToRender;
+            let extraItems = 1;
 
             if (stateToRender) {
                 if (typeof stateToRender === 'object' && (stateToRender as any).type === 'component') {
                     const newValueComponent = stateToRender as unknown as NiceComponent<any>;
                     value = newValueComponent.render(newValueComponent.id).html;
                 } else if (Array.isArray(stateToRender)) {
+                    extraItems = stateToRender.length;
                     value = stateToRender.map((v) => {
                         if (typeof v === 'object' && (v as any).type === 'component') {
                             const newValueComponent = v as unknown as NiceComponent<any>;
@@ -71,7 +73,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                 }
             }
 
-            const replacer = isAttributeBind ? `state-${id}` : `<!-- @ --><span data-reattach-state="${id}" data-reattach-extras="${!!stateToRender}"></span>${value}<!-- # -->`;
+            const replacer = isAttributeBind ? `state-${id};${value}` : `<!-- @ --><span data-reattach-state="${id}" data-reattach-extras="${!!value && extraItems}"></span>${value}<!-- # -->`;
             html = html.replace(id, replacer);
         });
 
@@ -81,8 +83,11 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
     
             Object.keys(stateToReattach).forEach((id) => {
                 htmlAsDom.querySelectorAll(`[data-reattach-state="${id}"]`).forEach((el) => {
-                    const removeExtras = el.getAttribute('data-reattach-extras') === 'true';
-                    if (removeExtras) el.nextSibling?.remove();
+                    const removeExtras = el.getAttribute('data-reattach-extras');
+                    console.log(removeExtras)
+                    if (removeExtras && removeExtras !== 'false') {
+                        for (let i = 0; i < parseInt(removeExtras); i++) el.nextSibling?.remove();
+                    }
                     let value = stateToReattach[id].get();
     
                     stateToReattach[id].markers.push([
@@ -105,7 +110,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                     const isAction = attr.name.startsWith('on-');
                     const isSetter = attr.name.startsWith('set-');
                     const isRef = attr.name === 'ref';
-                    const stateId = attr.value.match(/state-(.+)/);
+                    const stateId = attr.value.match(/state-(.+?);/);
                     if (stateId) {
                         const state = stateToReattach[stateId[1]];
                         if (!state) return;
@@ -136,7 +141,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
         }
 
         return {
-            html,
+            html: html.trim(),
             hydrate
         };
     }

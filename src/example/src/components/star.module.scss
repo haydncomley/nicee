@@ -1,0 +1,69 @@
+@use 'easy-theme' as theme;
+
+@keyframes burstIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.star {
+    position: absolute;
+    height: 2rem;
+    width: 2rem;
+    opacity: 0.5;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(var(--theme-primary));
+        animation: burstIn 0.5s ease forwards;
+    }
+    
+    &.square::after {
+        border-radius: 0;
+    }
+
+    &.circle::after {
+        border-radius: 50%;
+    }
+
+    &.triangle::after {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    &.burst::after {
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    &:not(:last-child)::after {
+        animation: none;
+    }
+
+    &:nth-child(2n) {
+        opacity: 1;
+    }
+
+    &:nth-child(4n) {
+        opacity: 0.25;
+    }
+
+    &:nth-child(3n)::after {
+        background: rgb(var(--theme-secondary));
+    }
+
+    &:nth-child(5n)::after {
+        background: linear-gradient(to bottom right, rgb(var(--theme-primary)), rgb(var(--theme-secondary)));
+    }
+}
+

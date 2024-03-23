@@ -9,8 +9,8 @@
     font-weight: 400;
     font-style: normal;
 
-    --theme-primary: 223, 58, 162;
-    --theme-secondary: 223, 152, 58;
+    --theme-primary: 221, 19, 100;
+    --theme-secondary:221, 180, 19;
     --theme-primary-contrast: 249, 255, 254;
     --theme-background: 249, 255, 254;
     --theme-contrast: 16, 27, 25;
@@ -18,10 +18,10 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --theme-primary: 223, 58, 162;
-        --theme-secondary: 223, 152, 58;
+        --theme-primary: 221, 19, 100;
+        --theme-secondary: 221, 180, 19;
         --theme-primary-contrast: 249, 255, 254;
-        --theme-background: 16, 27, 25;
+        --theme-background: 20, 27, 25;
         --theme-contrast: 249, 255, 254;
     }
 }
@@ -33,18 +33,7 @@
 
 html, body {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-#app {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+    min-height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     background: rgb(var(--theme-background));

@@ -23,3 +23,7 @@ export const getParentId = () => {
 export const serialiseDeps = (deps: NiceState<any>[]) => {
     return deps.map((dep) => JSON.stringify(Object.hasOwn(dep, 'get') && dep.get())).join('');
 }
+
+export const camelToKebab = (camelCaseString: string) => {
+    return camelCaseString.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}

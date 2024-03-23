@@ -6,7 +6,5 @@ export const store = <T = object>(values: T) => {
         return acc;
     }, {} as Record<string, NiceState<any>>);
     
-    return [
-        (key: keyof T) => theStore[key as string]
-    ]
+    return (key: keyof T) => theStore[key as string]
 }

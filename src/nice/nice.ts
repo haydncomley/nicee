@@ -4,7 +4,7 @@ import { NiceComponent as NiceComponentInternal, NiceComponentPropertyDefinition
 import { NiceRenderFunctionReturn, NiceRenderTemplate, render as renderInternal } from './lib/nice-renderer';
 import { state as stateInternal, computed as computedInternal, ref as refInternal, NiceState as NiceStateInternal } from './lib/nice-state';
 import { store as storeInternal } from './lib/nice-store';
-import { mapper, valueOf as valueOfInternal } from './lib/nice-utils';
+import { mapper, styler, valueOf as valueOfInternal } from './lib/nice-utils';
 
 type NiceState<T> = Pick<NiceStateInternal<T>, 'get' | 'set'>; 
 type NiceProp<T> = T | NiceState<T>; 
@@ -18,16 +18,18 @@ const render = renderInternal as (template: NiceRenderTemplate, ...args: NiceNod
 const component = componentInternal as <T extends NiceComponentPropertyDefinitions | undefined = undefined>(fn: (props: T) => NiceRenderFunctionReturn | void) => T extends undefined ? () => NiceComponent<T> : (props: T) =>  T extends undefined ? () => NiceComponent<T> : (props: T) => NiceComponent<T>;
 
 const ref = refInternal as <T extends HTMLElement>(fn?: ((element: T) => void) | undefined) => NiceRef<T>;
-const store = storeInternal as <T = object>(values: T) => ((key: keyof T) => NiceState<typeof values[typeof key]>)[];
+const store = storeInternal as <T = object>(values: T) => (<U extends keyof T>(key: U) => NiceState<T[U]>);
 const valueOf = valueOfInternal as <T extends unknown>(property: T) => T extends NiceProp<infer U> ? U : never;
 
 const hasWindow = typeof window !== 'undefined';
+
 
 export {
     ref,
     app,
     store,
     state,
+    styler,
     mapper,
     render,
     valueOf,

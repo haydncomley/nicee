@@ -5,7 +5,7 @@ export interface NiceState<T> {
     type: 'state';
     id: string;
     get: () => T;
-    set: (newValue: T | ((current: T) => T)) => void;
+    set: (newValue: T) => void;
     listen: (listener: (newValue: T) => void) => void;
     textNodes: Text[];
     markers: Comment[][];

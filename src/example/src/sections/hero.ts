@@ -1,32 +1,41 @@
-import { component, computed, render, state } from "../../../nice";
+import { component, computed, mapper, render } from "../../../nice";
+import { globalStore } from "../app";
 import { Button } from "../components/button";
+import { Link } from "../components/link";
 import { Logo } from "../components/logo";
+import { Star } from "../components/star";
 
 import styles from './hero.module.scss';
 
-export const HeroSection = component<{
-    scrollNote?: string
-}>(({ 
-    scrollNote
- }) => {
-    const count = state(2);
+export const HeroSection = component(() => {
+    const count = globalStore('globalCount');
     
     const addCount = computed<MouseEvent>(() => {
         count.set(count.get() + 1);
     });
 
     const buttonLabel = computed(() => {
-        return `Count ${count.get()}`;
+        const value = count.get();
+        return  value ? `Count ${value}` : 'Click Me';
     }, [count]);
+
+    const stars = computed(() => {
+        return mapper(count.get(), (value) => Star({ value }));
+    }, [count])
 
     return render`
         <section class=${styles.fullPage}>
+            <div>${stars}</div>
+
             <div class=${styles.fullPageContent}>
                 ${Logo()}
                 ${Button({ label: buttonLabel, onClick: addCount })}
             </div>
 
-            <span class=${styles.fullPageTag}>${scrollNote}</span>
+            <div class=${styles.fullPageNote}>
+                <small>made using a nicee framework</small>
+                <span>Check it out now : ${Link({ isExternal: true, label: 'GitHub', url: "https://github.com/haydncomley/nicee" })}</span>
+            <div>
         </section>
     `
 });

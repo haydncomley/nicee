@@ -1,18 +1,24 @@
 import { app, render, store } from "../../nice";
+import { Navigation } from "./components/nav";
 import { ThemeWidget } from "./components/theme-widget";
+import { CalloutSection } from "./sections/callout";
 import { HeroSection } from "./sections/hero";
 
-export const [ globalStore ] = store({
+export const globalStore = store({
     appName: 'haydn',
-    isMenuOpen: false,
+    isNavOpen: false,
+    globalCount: 0,
 });
 
 export const myApp = app(() => {
     return render`
           <main>
                 ${ThemeWidget()}
-
-                ${HeroSection({})}
+                ${Navigation()}
+                
+                ${HeroSection()}
+                ${CalloutSection({ header: 'Hello World', subheader: 'This is some more content' })}
+                ${HeroSection()}
           </main>
       `;
   });

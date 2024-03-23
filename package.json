@@ -10,7 +10,7 @@
   "author": "Haydn Comley",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "dev": "cd src/example && yarn dev",
     "build:example": "cd src/example && yarn build",
     "make": "yarn make:types && yarn make:lib:cjs && yarn make:lib:esm",
     "make:types": "tsc --project ./tsconfig.out.json",
