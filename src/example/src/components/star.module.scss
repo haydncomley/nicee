@@ -12,6 +12,21 @@
     }
 }
 
+@keyframes breathe {
+    0% {
+        transform: scale(0.8) rotateZ(5deg);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2) rotateZ(-5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8) rotateZ(5deg);
+        opacity: 0.7;
+    }
+}
+
 .star {
     position: absolute;
     height: 2rem;
@@ -27,52 +42,71 @@
         margin-top: -.5rem;
         filter: drop-shadow(0 0 0.5rem rgb(var(--theme-primary), .5));
     }
-    
-    &::after {
-        content: '';
-        position: absolute;
-        transform-origin: 50% 50%;
-        top: 0;
-        left: 0;
-        width: 100%;
+
+    span {
         height: 100%;
-        background: rgb(var(--theme-primary));
-        animation: burstIn 0.5s ease forwards;
+        width: 100%;
+        display: block;
+        animation: 3s infinite breathe;
+
+        &::after {
+            content: '';
+            position: absolute;
+            transform-origin: 50% 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(var(--theme-primary));
+            animation: burstIn 0.5s ease forwards;
+        }
     }
     
-    &.square::after {
+    &.square>span::after {
         border-radius: 0;
     }
 
-    &.circle::after {
+    &.circle>span::after {
         border-radius: 50%;
     }
 
-    &.triangle::after {
+    &.triangle>span::after {
         clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    &.burst::after {
+    &.burst>span::after {
         clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    }
-
-    &:not(:last-child)::after {
-        animation: none;
     }
 
     &:nth-child(2n) {
         opacity: 1;
+
+        span {
+            animation-delay: -1.5s;
+        }
+    }
+
+    &:nth-child(3n) {
+        span {
+            animation-delay: -.5s;
+        }
+    }
+
+    &:nth-child(5n) {
+        span {
+            animation-delay: -.9s;
+        }
     }
 
     &:nth-child(4n) {
         opacity: 0.25;
     }
 
-    &:nth-child(3n)::after {
+    &:nth-child(3n)>span::after {
         background: rgb(var(--theme-secondary));
     }
 
-    &:nth-child(5n)::after {
+    &:nth-child(5n)>span::after {
         background: linear-gradient(to bottom right, rgb(var(--theme-primary)), rgb(var(--theme-secondary)));
     }
 }

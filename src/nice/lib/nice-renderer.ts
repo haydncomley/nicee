@@ -165,23 +165,59 @@ export const replaceNodesFrom = (value: unknown | NiceComponent<any>, start: Com
         if (valueValue) Array.from(valueValue.hydrate().children).reverse().forEach((child) => start.after(child));
     } else {
         const valueAsArray = Array.isArray(value) ? value : [value];
-        const valuesToRender = valueAsArray.map((v) => {
+        const keys = valueAsArray.map((v) => {
             if (typeof v === 'object' && (v as any).type === 'component') {
                 const newValueComponent = v as unknown as NiceComponent<any>;
-                return newValueComponent.render(newValueComponent.id).hydrate();
+                return newValueComponent.key ?? newValueComponent.id;
+            } else {
+                return undefined;
+            }
+        }).filter((v) => v !== undefined);
+
+        const valuesToRender = valueAsArray.map((v) => {
+            if (typeof v === 'object' && (v as any).type === 'component') {
+                console.log('RendernChild', v, v.properties);
+                const newValueComponent = v as unknown as NiceComponent<any>;
+                const renderResult = newValueComponent.render(newValueComponent.id).hydrate();
+                if (renderResult.children[0] && v.key) renderResult.children[0].setAttribute('data-nice-key', v.key);
+                console.log(renderResult.children[0])
+                return renderResult;
             } else {
                 return v;
             }
         });
 
-        childrenBetweenMarkers.forEach((node) => node!.remove());
-        valuesToRender.reverse().forEach((valueValue) => {
-            if (valueValue instanceof HTMLElement) Array.from(valueValue.children).reverse().forEach((child) => start.after(child));
-            else {
-                const text = document.createTextNode(valueValue as string);
-                start.after(text);
-            }
-        });
+        if (!keys.length) {
+            childrenBetweenMarkers.forEach((node) => node!.remove());
+            valuesToRender.reverse().forEach((valueValue) => {
+                if (valueValue instanceof HTMLElement) Array.from(valueValue.children).reverse().forEach((child) => start.after(child));
+                else {
+                    const text = document.createTextNode(valueValue as string);
+                    start.after(text);
+                }
+            });
+        } else {
+            childrenBetweenMarkers.forEach((node) => {
+                if(!keys.includes((node! as HTMLElement).getAttribute('data-nice-key')!)) {
+                    node!.remove()
+                }
+            });
+            valuesToRender.reverse().forEach((valueValue) => {
+                if (valueValue instanceof HTMLElement) {
+                    let prev: HTMLElement | null = null;
+                    Array.from(valueValue.children).reverse().forEach((child) => {
+                        if (!start.parentElement?.querySelector(`[data-nice-key="${(child as HTMLElement).getAttribute('data-nice-key')!}"]`))  {
+                            const previous = prev ?? end;
+                            previous.before(child);
+                        }
+                        prev = child as HTMLElement;
+                    });
+                } else {
+                    const text = document.createTextNode(valueValue as string);
+                    start.after(text);
+                }
+            });
+        }
     }
 }
 

@@ -29,6 +29,7 @@ const getShape = (num: number) => {
 
 export const Star = component<{
     value: number
+    key?: number
 }>(({
     value,
 }) => {
@@ -44,5 +45,5 @@ export const Star = component<{
 
     const starClass = computed(() => `${getShape(value)} ${styles.star}`, [value]);
 
-    return render`<span class=${starClass} style=${style}></span>`
+    return render`<span class=${starClass} style=${style}><span></span></span>`
 });

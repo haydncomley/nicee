@@ -1,3 +1,5 @@
+@use 'easy-theme' as theme;
+
 .calloutSection {
     width: 100%;
     padding: 4rem;
@@ -8,8 +10,8 @@
     flex-direction: column;
     box-sizing: border-box;
     gap: 0.2rem;
-    background: rgb(var(--theme-contrast));
-    color: rgb(var(--theme-primary));
+    background: rgb(var(--theme-primary));
+    color: rgb(var(--theme-primary-contrast));
     position: relative;
     overflow: hidden;
 
@@ -43,6 +45,8 @@
     letter-spacing: .02em;
     z-index: 1;
     transition: .2s .15s ease-out;
+    line-height: .8em;
+    margin-bottom: 0.5rem;
 }
 
 .calloutSectionSubheader {
@@ -90,7 +94,7 @@
     width: 15vw;
     height: 15vw;
     transform: translate(-50%, -50%);
-    border: .2rem solid rgb(var(--theme-primary), .5);
+    border: .2rem solid rgb(var(--theme-primary-contrast), .5);
     animation: morphShape 5s ease infinite;
     left: 20%;
     top: 5%;

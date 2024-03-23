@@ -11,6 +11,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 -.1rem 0 0.1rem rgba(var(--theme-contrast), .1);
 
     .fullPageContent {
         z-index: 1;

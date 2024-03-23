@@ -10,6 +10,7 @@
     border: .2rem solid rgb(var(--theme-primary));
     z-index: 5;
     display: flex;
+    transition: .2s ease;
 
     @include theme.Mobile {
         right: 0;
@@ -30,10 +31,14 @@
             transition: .2s ease;
         }
     
-        &[data-is-open="true"]::after {
-            background-color: rgba(0,0,0, .5);
-            backdrop-filter: blur(0.2rem);
-            pointer-events: auto;
+        &[data-is-open="true"] {
+            border-color: transparent;
+
+            &::after {
+                background-color: rgba(var(--theme-background), .5);
+                backdrop-filter: blur(0.2rem);
+                pointer-events: auto;
+            }
         }
     }
 }
@@ -49,19 +54,49 @@
     border-radius: 50%;
     -webkit-tap-highlight-color: transparent;
     z-index: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     svg {
         height: 100%;
         width: 100%;
+        transition: .2s ease;
 
         path {
             stroke: rgb(var(--theme-contrast));
+            fill: rgb(var(--theme-contrast));
+        }
+
+        &:nth-child(2) {
+            position: absolute;
+            opacity: 0;
         }
     }
 
     @include theme.NotMobile {
         display: none
     };
+
+    [data-is-open="true"] & {
+        svg {
+            transform: rotateZ(90deg);
+
+            &:nth-child(1) {
+                opacity: 0;
+            }
+
+            &:nth-child(2) {
+                opacity: 1;
+            }
+
+            path {
+                stroke: rgb(var(--theme-primary));
+                fill: rgb(var(--theme-primary));
+            }
+        }
+    }
 }
 
 .navContent {

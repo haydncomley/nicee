@@ -21,7 +21,7 @@ export const HeroSection = component(() => {
     }, [count]);
 
     const stars = computed(() => {
-        return mapper(count.get(), (value) => Star({ value }));
+        return mapper(count.get(), (value) => Star({ value }, String(value)));
     }, [count])
 
     return render`
@@ -39,7 +39,7 @@ export const HeroSection = component(() => {
             </div>
 
             <div class=${styles.fullPageFeature}>
-                <p>Featured Project</p>
+                <p>Looking for something cool?</p>
                 ${ProjectCard()}
             </div>
         </header>

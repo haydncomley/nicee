@@ -4,6 +4,7 @@ import { ThemeWidget } from "./components/theme-widget";
 import { CalloutSection } from "./sections/callout";
 import { Footer } from "./sections/footer";
 import { HeroSection } from "./sections/hero";
+import { ProjectShowcaseSection } from "./sections/project-showcase";
 
 export const globalStore = store({
     appName: 'haydn',
@@ -19,6 +20,8 @@ export const myApp = app(() => {
 
                 ${HeroSection()}
                 ${CalloutSection({ header: 'Hello World', subheader: 'This is some more content' })}
+                ${ProjectShowcaseSection()}
+
                 ${HeroSection()}
 
                 ${Footer()}
