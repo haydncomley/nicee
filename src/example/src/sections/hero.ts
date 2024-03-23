@@ -3,6 +3,7 @@ import { globalStore } from "../app";
 import { Button } from "../components/button";
 import { Link } from "../components/link";
 import { Logo } from "../components/logo";
+import { ProjectCard } from "../components/project-card";
 import { Star } from "../components/star";
 
 import styles from './hero.module.scss';
@@ -24,8 +25,8 @@ export const HeroSection = component(() => {
     }, [count])
 
     return render`
-        <section class=${styles.fullPage}>
-            <div>${stars}</div>
+        <header class=${styles.fullPage}>
+            <div class=${styles.fullPageBackground}>${stars}</div>
 
             <div class=${styles.fullPageContent}>
                 ${Logo()}
@@ -35,7 +36,12 @@ export const HeroSection = component(() => {
             <div class=${styles.fullPageNote}>
                 <small>made using a nicee framework</small>
                 <span>Check it out now : ${Link({ isExternal: true, label: 'GitHub', url: "https://github.com/haydncomley/nicee" })}</span>
-            <div>
-        </section>
+            </div>
+
+            <div class=${styles.fullPageFeature}>
+                <p>Featured Project</p>
+                ${ProjectCard()}
+            </div>
+        </header>
     `
 });

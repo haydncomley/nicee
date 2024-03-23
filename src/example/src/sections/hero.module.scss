@@ -1,7 +1,7 @@
 @use 'easy-theme' as theme;
 
 .fullPage {
-    width: 100vw;
+    width: 100%;
     height: 90vh;
     height: 90svh;
     display: flex;
@@ -14,6 +14,53 @@
 
     .fullPageContent {
         z-index: 1;
+
+        @include theme.Mobile {
+            transform: translateY(-7rem);
+        }
+    }
+}
+
+@keyframes breathe {
+    0% {
+        transform: scale(1) rotateZ(2deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.1) rotateZ(-1deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotateZ(2deg);
+        opacity: 0.5;
+    }
+}
+
+.fullPageBackground {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    animation: breathe 30s ease infinite;
+}
+
+.fullPageFeature {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    padding: .5rem;
+
+    & > p {
+        font-size: 0.8rem;
+        font-weight: 400;
+        margin-bottom: .5rem;
+        color: rgb(var(--theme-contrast), .75);
+    }
+
+    @include theme.Mobile {
+        right: auto;
+        transform: translateY(-5rem);
     }
 }
 

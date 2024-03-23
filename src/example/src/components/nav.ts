@@ -22,7 +22,9 @@ export const Navigation = component(() => {
             </button>
 
             <div class=${styles.navContent}>
-                ${Link({ isExternal: true, label: 'About', url: "https://github.com/haydncomley" })}
+                ${Link({ isExternal: true, label: 'Portfolio', url: "https://github.com/haydncomley" })}
+                <span class=${styles.navDivide}>•</span>
+                ${Link({ isExternal: true, label: 'Blog', url: "https://github.com/haydncomley" })}
                 <span class=${styles.navDivide}>•</span>
                 ${Link({ isExternal: true, label: 'GitHub', url: "https://github.com/haydncomley" })}
             </div>

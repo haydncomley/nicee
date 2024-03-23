@@ -39,7 +39,7 @@ export const Star = component<{
         display: hasWindow ? 'block' : 'none',
         left: `${x.get()}%`,
         top: `${y.get()}%`,
-        transform: `rotateZ(${getRotation(value)}deg)`,
+        transform: `rotateZ(${getRotation(value)}deg) translate(-50%, -50%)`,
     }), [x, y]);
 
     const starClass = computed(() => `${getShape(value)} ${styles.star}`, [value]);

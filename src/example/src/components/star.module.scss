@@ -2,13 +2,13 @@
 
 @keyframes burstIn {
     0% {
-        transform: translate(-50%, -50%) scale(0);
+        transform: scale(0);
     }
     30% {
-        transform: translate(-50%, -50%) scale(1.5);
+        transform:scale(1.5);
     }
     100% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
     }
 }
 
@@ -17,11 +17,21 @@
     height: 2rem;
     width: 2rem;
     opacity: 0.5;
+    transform-origin: 50% 50%;
+    transition: .25s ease-out;
+    
+    &:hover {
+        height: 2.5rem;
+        width: 2.5rem;
+        margin-left: -.5rem;
+        margin-top: -.5rem;
+        filter: drop-shadow(0 0 0.5rem rgb(var(--theme-primary), .5));
+    }
     
     &::after {
         content: '';
         position: absolute;
-        transform: translate(-50%, -50%);
+        transform-origin: 50% 50%;
         top: 0;
         left: 0;
         width: 100%;

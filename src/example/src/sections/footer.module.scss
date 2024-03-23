@@ -1,0 +1,50 @@
+@use 'easy-theme' as theme;
+
+.footer {
+    width: 100%;
+    display: block;
+    position: relative;
+    border-top: .2rem dashed rgba(var(--theme-contrast), .1);
+    padding: 2rem;
+    color: var(--theme-contrast);
+    box-sizing: border-box;
+}
+
+.footerTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.footerInfo {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    margin-top: -0.5rem;
+    display: block;
+    color: rgb(var(--theme-contrast), .75);
+    white-space: pre-line;
+}
+
+.footerBody {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgb(var(--theme-primary));
+    margin-top: 1rem;
+}
+
+.footerContent {
+    gap: 4rem;
+    display: flex;
+}
+
+.footerColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    @include theme.Mobile {
+        flex-basis: 50%;
+    }
+}
