@@ -1,7 +1,7 @@
 {
   "name": "nicee",
   "description": "A small framework for creating nice little web applications.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "./out/index.cjs",
   "module": "./out/index.js",

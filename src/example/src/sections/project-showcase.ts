@@ -1,6 +1,5 @@
 import { component, render, type NiceProp, type ComponentType, computed, mapper, valueOf } from "../../../nice";
 import { ProjectCard } from "../components/project-card";
-import { OutRankedProject } from "../data/projects.data";
 
 import styles from './project-showcase.module.scss';
 

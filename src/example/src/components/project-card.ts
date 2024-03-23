@@ -1,4 +1,4 @@
-import { component, render, type NiceProp, computed, mapper, valueOf } from "../../../nice";
+import { component, render, type NiceProp, computed, valueOf } from "../../../nice";
 
 import styles from './project-card.module.scss'
 

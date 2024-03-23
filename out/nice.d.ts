@@ -19,5 +19,6 @@ declare const ref: <T extends HTMLElement>(fn?: ((element: T) => void) | undefin
 declare const store: <T = object>(values: T) => <U extends keyof T>(key: U) => NiceState<T[U]>;
 declare const valueOf: <T extends unknown>(property: T) => T extends NiceProp<infer U> ? U : never;
 declare const hasWindow: boolean;
+type ComponentType<T extends NiceComponent<any>> = T extends infer U extends (...args: any) => any ? Parameters<U>[0] : string;
 export { ref, app, store, state, styler, mapper, render, valueOf, computed, component, hasWindow, };
-export type { NiceNode, NiceProp, NiceState, };
+export type { NiceNode, NiceProp, NiceState, ComponentType, };

@@ -6,7 +6,7 @@ import { Logo } from "../components/logo";
 import { ProjectCard } from "../components/project-card";
 import { Star } from "../components/star";
 import { NiceeGitHub } from "../data/links.data";
-import { FeaturedProject, OutRankedProject } from "../data/projects.data";
+import { FeaturedProject } from "../data/projects.data";
 
 import styles from './hero.module.scss';
 
