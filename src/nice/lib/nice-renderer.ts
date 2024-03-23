@@ -78,7 +78,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                 }
             }
 
-            const replacer = isAttributeBind ? `"${value ? value : ''}" data-bind-${isAttributeBind}="${id}"` : `<!-- @ --><span data-reattach-state="${id}" data-reattach-extras="${!!value && extraItems}"></span>${value}<!-- # -->`;
+            const replacer = isAttributeBind ? `"${value ? value : ''}" data-bind-${isAttributeBind}="${id}"` : `<!-- @ -->${value}<span style="display: none;" data-reattach-state="${id}" data-reattach-extras="${!!value && extraItems}"></span><!-- # -->`;
             html = html.replace(id, replacer);
         });
 
@@ -90,7 +90,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                 htmlAsDom.querySelectorAll(`[data-reattach-state="${id}"]`).forEach((el) => {
                     const removeExtras = el.getAttribute('data-reattach-extras');
                     if (removeExtras && removeExtras !== 'false') {
-                        for (let i = 0; i < parseInt(removeExtras); i++) el.nextSibling?.remove();
+                        for (let i = 0; i < parseInt(removeExtras); i++) el.previousSibling?.remove();
                     }
                     let value = stateToReattach[id].get();
     

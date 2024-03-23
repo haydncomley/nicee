@@ -1,6 +1,7 @@
 import { app, render, store } from "../../nice";
 import { Navigation } from "./components/nav";
 import { ThemeWidget } from "./components/theme-widget";
+import { RecentProjects } from "./data/projects.data";
 import { CalloutSection } from "./sections/callout";
 import { Footer } from "./sections/footer";
 import { HeroSection } from "./sections/hero";
@@ -21,7 +22,10 @@ export const myApp = app(() => {
                 ${HeroSection()}
                 
                 ${CalloutSection({ header: 'Hello World', subheader: 'This is some more content' })}
-                ${ProjectShowcaseSection()}
+                ${ProjectShowcaseSection({
+                    projects: RecentProjects,
+                    title: 'Recent Projects'
+                })}
 
                 ${Footer()}
           </main>

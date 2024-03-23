@@ -2,7 +2,6 @@
 
 .footer {
     width: 100%;
-    display: block;
     position: relative;
     border-top: .2rem dashed rgba(var(--theme-contrast), .1);
     padding: 2rem;
@@ -33,9 +32,19 @@
     margin-top: 1rem;
 }
 
+.footerInner {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 75rem;
+    margin: auto;
+}
+
 .footerContent {
     gap: 4rem;
     display: flex;
+    margin: auto;
+    max-width: 80rem;
 }
 
 .footerColumn {

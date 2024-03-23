@@ -5,6 +5,8 @@ import { Link } from "../components/link";
 import { Logo } from "../components/logo";
 import { ProjectCard } from "../components/project-card";
 import { Star } from "../components/star";
+import { NiceeGitHub } from "../data/links.data";
+import { FeaturedProject, OutRankedProject } from "../data/projects.data";
 
 import styles from './hero.module.scss';
 
@@ -28,19 +30,21 @@ export const HeroSection = component(() => {
         <header class=${styles.fullPage}>
             <div class=${styles.fullPageBackground}>${stars}</div>
 
-            <div class=${styles.fullPageContent}>
-                ${Logo()}
-                ${Button({ label: buttonLabel, onClick: addCount })}
-            </div>
+            <div class=${styles.fullPageInner}>
+                <div class=${styles.fullPageContent}>
+                    ${Logo()}
+                    ${Button({ label: buttonLabel, onClick: addCount })}
+                </div>
 
-            <div class=${styles.fullPageNote}>
-                <small>made using a nicee framework</small>
-                <span>Check it out now : ${Link({ isExternal: true, label: 'GitHub', url: "https://github.com/haydncomley/nicee" })}</span>
-            </div>
+                <div class=${styles.fullPageNote}>
+                    <small>made using a nicee framework</small>
+                    <span>Check it out now : ${Link(NiceeGitHub)}</span>
+                </div>
 
-            <div class=${styles.fullPageFeature}>
-                <p>Looking for something cool?</p>
-                ${ProjectCard()}
+                <div class=${styles.fullPageFeature}>
+                    <p>Looking for something cool?</p>
+                    ${ProjectCard(FeaturedProject)}
+                </div>
             </div>
         </header>
     `

@@ -7,7 +7,7 @@
     transition: .1s ease;
     -webkit-tap-highlight-color: transparent;
 
-    &:hover {
+    &:hover, &:focus {
         color: rgb(var(--theme-secondary));
         transform: scale(0.95);
 

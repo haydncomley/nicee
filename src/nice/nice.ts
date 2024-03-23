@@ -22,7 +22,7 @@ const store = storeInternal as <T = object>(values: T) => (<U extends keyof T>(k
 const valueOf = valueOfInternal as <T extends unknown>(property: T) => T extends NiceProp<infer U> ? U : never;
 
 const hasWindow = typeof window !== 'undefined';
-
+type ComponentType <T extends NiceComponent<any>> = T extends infer U extends (...args: any) => any ? Parameters<U>[0] : string;
 
 export {
     ref,
@@ -42,4 +42,5 @@ export type {
     NiceNode,
     NiceProp,
     NiceState,
+    ComponentType,
 }

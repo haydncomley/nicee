@@ -1,5 +1,6 @@
 import { component, computed, render } from "../../../nice";
 import { globalStore } from "../app";
+import { SocialGitHub } from "../data/links.data";
 import { Link } from "./link";
 
 import styles from './nav.module.scss'
@@ -30,7 +31,7 @@ export const Navigation = component(() => {
                 <span class=${styles.navDivide}>•</span>
                 ${Link({ label: 'Portfolio', url: "/work" })}
                 <span class=${styles.navDivide}>•</span>
-                ${Link({ isExternal: true, label: 'GitHub', url: "https://github.com/haydncomley" })}
+                ${Link(SocialGitHub)}
             </div>
         </nav>
     `
