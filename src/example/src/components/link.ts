@@ -5,7 +5,7 @@ import styles from './link.module.scss'
 export const Link = component<{
     label: NiceProp<string>
     url: NiceProp<string>
-    isExternal: NiceProp<boolean>
+    isExternal?: NiceProp<boolean>
 }>(({
     label,
     url,

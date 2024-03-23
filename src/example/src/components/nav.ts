@@ -13,7 +13,7 @@ export const Navigation = component(() => {
 
     return render`
         <nav class=${styles.nav} data-is-open=${isNavOpen}>
-            <button class=${styles.navButton} on-click=${toggleNav}>
+            <button class=${styles.navButton} on-click=${toggleNav} title="Menu">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                     <path d="M4 18L20 18" stroke-width="2" stroke-linecap="round"/>
                     <path d="M4 12L20 12" stroke-width="2" stroke-linecap="round"/>
@@ -26,9 +26,9 @@ export const Navigation = component(() => {
             </button>
 
             <div class=${styles.navContent}>
-                ${Link({ isExternal: true, label: 'Portfolio', url: "https://github.com/haydncomley" })}
+                ${Link({ label: 'Home', url: "/" })}
                 <span class=${styles.navDivide}>•</span>
-                ${Link({ isExternal: true, label: 'Blog', url: "https://github.com/haydncomley" })}
+                ${Link({ label: 'Portfolio', url: "/work" })}
                 <span class=${styles.navDivide}>•</span>
                 ${Link({ isExternal: true, label: 'GitHub', url: "https://github.com/haydncomley" })}
             </div>

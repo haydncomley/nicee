@@ -29,7 +29,7 @@ export const ThemeWidget = component(() => {
     })
 
     return render`
-        <div class=${styles.themeWidget} on-click=${onClick}>
+        <div class="${styles.themeWidget}" on-click=${onClick}>
             ${Button({ label: 'Change Theme', onClick })}
             <input type="color" ref=${inputRef} on-input=${onColorChange} set-value=${currentColorHex}>
         </div>

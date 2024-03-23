@@ -19,14 +19,19 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
         const stateToReattach: Record<string, NiceState<any>> = {};
 
         template.forEach((block, index) => {
-            const nextVar = args[index];
+            let nextVar = args[index];
             html += block;
             if (nextVar === undefined) return;
             
+            const isAttributeBind = matchAttributeBinding(block);
             const randomId = Math.random().toString(36).substring(7);
 
             if (typeof nextVar !== 'object') {
-                html += nextVar;
+                if (isAttributeBind && !block.endsWith('"')) {
+                    html += `"${nextVar}"`;
+                } else {
+                    html += nextVar;
+                }
                 return;
             }
             
@@ -73,7 +78,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
                 }
             }
 
-            const replacer = isAttributeBind ? `state-${id};${value}` : `<!-- @ --><span data-reattach-state="${id}" data-reattach-extras="${!!value && extraItems}"></span>${value}<!-- # -->`;
+            const replacer = isAttributeBind ? `"${value ? value : ''}" data-bind-${isAttributeBind}="${id}"` : `<!-- @ --><span data-reattach-state="${id}" data-reattach-extras="${!!value && extraItems}"></span>${value}<!-- # -->`;
             html = html.replace(id, replacer);
         });
 
@@ -84,7 +89,6 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
             Object.keys(stateToReattach).forEach((id) => {
                 htmlAsDom.querySelectorAll(`[data-reattach-state="${id}"]`).forEach((el) => {
                     const removeExtras = el.getAttribute('data-reattach-extras');
-                    console.log(removeExtras)
                     if (removeExtras && removeExtras !== 'false') {
                         for (let i = 0; i < parseInt(removeExtras); i++) el.nextSibling?.remove();
                     }
@@ -107,32 +111,38 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
     
             htmlAsDom.querySelectorAll('*').forEach((el) => {
                 Array.from(el.attributes).forEach((attr) => {
-                    const isAction = attr.name.startsWith('on-');
-                    const isSetter = attr.name.startsWith('set-');
-                    const isRef = attr.name === 'ref';
-                    const stateId = attr.value.match(/state-(.+?);/);
+                    const stateId = attr.name.match(/data-bind-(.+)$/);
+                    
                     if (stateId) {
-                        const state = stateToReattach[stateId[1]];
+                        const key = stateId[1].trim();
+                        const id = attr.value;
+
+                        const isAction = key.startsWith('on-');
+                        const isSetter = key.startsWith('set-');
+                        const isRef = key === 'ref';
+
+                        const state = stateToReattach[id];
                         if (!state) return;
-                        if (!state.attributes[attr.name]) state.attributes[attr.name] = [];
+                        if (!state.attributes[key]) state.attributes[key] = [];
     
                         if (isAction) {
-                            el.removeAttribute(attr.name);
-                            el.addEventListener(attr.name.slice(3), (e) => state.set(e as any));
+                            el.removeAttribute(key);
+                            el.addEventListener(key.slice(3), (e) => state.set(e as any));
                         } else if (isSetter) {
-                            el.removeAttribute(attr.name);
+                            el.removeAttribute(key);
                             state.listen((newValue) => {
-                                (el as any)[attr.name.slice(4)] = newValue;
+                                (el as any)[key.slice(4)] = newValue;
                             });
-                            (el as any)[attr.name.slice(4)] = state.get();
+                            (el as any)[key.slice(4)] = state.get();
                         } else if(isRef) {
-                            el.removeAttribute(attr.name);
+                            el.removeAttribute(key);
                             state.set((el as any));
                         } else {
-                            state.attributes[attr.name].push(el as HTMLElement);
-                            el.setAttribute(attr.name, (state.get() ?? '') as string);
+                            state.attributes[key].push(el as HTMLElement);
+                            el.setAttribute(key, (state.get() ?? '') as string);
                         }
     
+                        el.removeAttribute(attr.name);
                     }
                 });
             });
@@ -229,7 +239,7 @@ const renderAsHTML = (html: string) => {
 }
 
 const matchAttributeBinding = (str: string) => {
-    const regex = /.+\b(.+)="?$/gm;
+    const regex = /.+ (.+)="?$/gm;
     let m;
     const matches: string[] = [];
 

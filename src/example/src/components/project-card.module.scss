@@ -1,3 +1,15 @@
+@keyframes breathe {
+    0% {
+        transform: scale(1) rotate(-2deg);
+    }
+    50% {
+        transform: scale(1.05) rotate(2deg);
+    }
+    100% {
+        transform: scale(1) rotate(-2deg);
+    }
+}
+
 .projectCard {
     padding: 1rem;
     border-radius: 1rem;
@@ -13,6 +25,7 @@
     min-height: 8rem;
     overflow: hidden;
     flex-shrink: 0;
+    animation: breathe 3s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
 
     &:hover {
         outline: .2rem solid rgba(var(--theme-primary), 1);

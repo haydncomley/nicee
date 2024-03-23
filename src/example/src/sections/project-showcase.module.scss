@@ -14,6 +14,21 @@
     font-weight: 700;
 }
 
+@keyframes breathing {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+}
+
 .projectShowcaseContent {
     display: flex;
     margin: auto;
@@ -21,6 +36,25 @@
     justify-content: center;
     gap: 3rem;
     flex-wrap: wrap;
+
+    & > * {
+        & > * {
+            animation: breathing 3s infinite ease;
+        }
+            
+
+        &:nth-child(2n - 1) > * {
+            animation-delay: -0.9s;
+        }
+        
+        &:nth-child(2n) > * {
+            animation-delay: -0.6s;
+        }
+        
+        &:nth-child(3n) > * {
+            animation-delay: -0.3s;
+        }
+    }
     
     @include theme.Mobile {
         flex-direction: column;
@@ -30,15 +64,14 @@
             &:nth-child(2n - 1) {
                 transform: rotateZ(-2deg) translate(-1rem, 0);
             }
-
+            
             &:nth-child(2n) {
                 transform: rotateZ(2deg) translate(1rem, 0);;
             }
-
+            
             &:nth-child(3n) {
                 transform: rotateZ(-4deg) translate(-1rem, 0);;
             }
-            // width: 100%;
         }
     }
 }

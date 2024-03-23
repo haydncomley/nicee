@@ -19,10 +19,9 @@ export const myApp = app(() => {
                 ${Navigation()}
 
                 ${HeroSection()}
+                
                 ${CalloutSection({ header: 'Hello World', subheader: 'This is some more content' })}
                 ${ProjectShowcaseSection()}
-
-                ${HeroSection()}
 
                 ${Footer()}
           </main>

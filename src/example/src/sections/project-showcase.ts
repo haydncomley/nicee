@@ -10,9 +10,15 @@ export const ProjectShowcaseSection = component(() => {
                 ▲ Recent Projects ◆
             </h4>
             <div class=${styles.projectShowcaseContent}>
-                ${ProjectCard()}
-                ${ProjectCard()}
-                ${ProjectCard()}
+                <span>
+                    ${ProjectCard()}
+                </span>
+                <span>
+                    ${ProjectCard()}
+                </span>
+                <span>
+                    ${ProjectCard()}
+                </span>
             </div>
         </section>
     `
