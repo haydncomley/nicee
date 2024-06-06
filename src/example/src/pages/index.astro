@@ -4,8 +4,6 @@ import "../styles.scss";
 import app from "../app";
 
 const path = Astro.url.pathname;
-
-console.log("Hello there", Astro.url.pathname);
 ---
 
 <html lang="en">
@@ -24,11 +22,11 @@ console.log("Hello there", Astro.url.pathname);
       rel="stylesheet"
     />
   </head>
-  <body set:html={app(path)!.html} id={app()!.id}>
+  <body set:html={app(path)!.html} id={app(path)!.id}>
     <script>
       import app from "../app";
       const path = window.location.pathname;
-      app(path)!.hydrate(app()!.id);
+      app(path)!.hydrate(app(path)!.id);
     </script>
   </body>
 </html>

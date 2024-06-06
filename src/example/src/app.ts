@@ -10,10 +10,16 @@ export const globalStore = store({
 
 export default (path?: string) => {
     return niceApp(() => {
-        switch (path) {
+        let trimmedPath = path?.trim();
+        if (trimmedPath?.endsWith('/')) trimmedPath = trimmedPath.slice(0, -1);
+        if (trimmedPath?.startsWith('/')) trimmedPath = trimmedPath.slice(1);
+
+        switch (trimmedPath) {
             default: 
                 return Home();
-            case '/blog':
+            case '':
+                return Home();
+            case 'blog':
                 return Blog();
         }
     });

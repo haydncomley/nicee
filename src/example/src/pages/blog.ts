@@ -14,7 +14,7 @@ export const Blog = () => render`
 
     ${HeroSection()}
     
-    ${CalloutSection({ header: 'Hello World' })}
+    ${CalloutSection({ header: 'Blog Under Construction' })}
     ${ProjectShowcaseSection({
         projects: RecentProjects,
         title: 'Recent Projects'
