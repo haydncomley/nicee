@@ -1,6 +1,7 @@
 import { app as niceApp, store } from "../../nice";
-import { Blog } from "./pages/blog";
-import { Home } from "./pages/home";
+import { Blog } from "./app/blog";
+import { Error } from "./app/error";
+import { Home } from "./app/home";
 
 export const globalStore = store({
     appName: 'haydn',
@@ -16,7 +17,7 @@ export default (path?: string) => {
 
         switch (trimmedPath) {
             default: 
-                return Home();
+                return Error();
             case '':
                 return Home();
             case 'blog':

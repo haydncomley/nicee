@@ -18,3 +18,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NICEE_LIB }}'
           channelId: live
           projectId: nicee-lib
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
