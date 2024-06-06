@@ -5,16 +5,16 @@
     top: 1rem;
     right: 1rem;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: var(--theme-border-radius);
     background-color: rgba(var(--theme-background), 1);
-    border: .2rem solid rgb(var(--theme-primary));
+    border: var(--theme-border-thickness) solid rgb(var(--theme-primary));
     z-index: 5;
     display: flex;
     transition: .2s ease;
 
     @include theme.Mobile {
         right: 0;
-        border-radius: 1rem 0 0 1rem;
+        border-radius: var(--theme-border-radius) 0 0 var(--theme-border-radius);
         border-right: none;
         padding: 0.75rem;
         padding-left: 1rem;
@@ -36,7 +36,7 @@
 
             &::after {
                 background-color: rgba(var(--theme-background), .5);
-                backdrop-filter: blur(0.2rem);
+                backdrop-filter: blur(0.5rem);
                 pointer-events: auto;
             }
         }
@@ -90,11 +90,6 @@
             &:nth-child(2) {
                 opacity: 1;
             }
-
-            path {
-                stroke: rgb(var(--theme-primary));
-                fill: rgb(var(--theme-primary));
-            }
         }
     }
 }
@@ -111,9 +106,9 @@
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
-        border-radius: 1rem 0 0 1rem;
+        border-radius: var(--theme-border-radius) 0 0 var(--theme-border-radius);
         background-color: rgba(var(--theme-background), 1);
-        border: .2rem solid rgb(var(--theme-secondary));
+        border: var(--theme-border-thickness) solid rgb(var(--theme-secondary));
         border-right: none;
         padding: 1.25rem;
         transform: translateX(100%);

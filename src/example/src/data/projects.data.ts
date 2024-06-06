@@ -2,31 +2,33 @@ import type { ComponentType } from "../../../nice";
 import { ProjectCard } from "../components/project-card";
 import { NiceeGitHub } from "./links.data";
 
-import TestImg from './project-imgs/test-2.webp'
+import OutRankedImg from './project-imgs/out-ranked-promo.jpeg'
+import GetCardsImg from './project-imgs/get-cards-promo.png'
+import NiceeLibImg from './project-imgs/js-logo.png'
 
 export const OutRankedProject: ComponentType<typeof ProjectCard> = {
-    image: TestImg.src,
+    image: OutRankedImg.src,
     tag: 'Social App',
-    techStack: ['React', 'Ionic'],
+    techStack: ['React', 'Hybrid'],
     title: 'OutRanked',
     link: 'https://outranked.app',
     isExternal: true,
 }
 
 export const GetCardsProject: ComponentType<typeof ProjectCard> = {
-    image: TestImg.src,
+    image: GetCardsImg.src,
     tag: 'Mobile Game',
-    techStack: ['React', 'Firebase'],
+    techStack: ['Ionic', 'Firebase'],
     title: 'GetCards',
     link: 'https://apps.apple.com/gb/app/getcards/id1410296798',
     isExternal: true,
 }
 
 export const NiceeLibProject: ComponentType<typeof ProjectCard> = {
-    image: "/test-image.webp",
+    image: NiceeLibImg.src,
     tag: 'Web Framework',
-    techStack: ['OSS'],
-    title: 'Nicee',
+    techStack: ['Open Source'],
+    title: 'nicee',
     link: NiceeGitHub.url,
     isExternal: true,
 }

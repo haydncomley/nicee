@@ -3,10 +3,15 @@
 .footer {
     width: 100%;
     position: relative;
-    border-top: .2rem dashed rgba(var(--theme-contrast), .1);
-    padding: 2rem;
+    border-top: calc(var(--theme-border-thickness) * 2) dashed rgba(var(--theme-contrast), .1);
+    background: rgba(var(--theme-contrast), .025);
+    padding: 2rem 2rem 3rem;
     color: var(--theme-contrast);
     box-sizing: border-box;
+
+    @include theme.Mobile {
+        padding: 2rem 2rem 5rem;
+    }
 }
 
 .footerTitle {

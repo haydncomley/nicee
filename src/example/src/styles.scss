@@ -8,11 +8,15 @@
     font-style: normal;
 
     --theme-primary: 221, 19, 100;
-    --theme-secondary:221, 180, 19;
+    --theme-secondary: 221, 180, 19;
     --theme-primary-contrast: 249, 255, 254;
     --theme-secondary-contrast: 249, 255, 254;
     --theme-background: 249, 255, 254;
     --theme-contrast: 16, 27, 25;
+
+    --theme-border-thickness: 0.1rem;
+    --theme-border-radius: 1rem;
+    --theme-line-thickness: 0.1rem;
 }
 
 @media (prefers-color-scheme: dark) {

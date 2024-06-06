@@ -24,3 +24,13 @@ export const NiceeGitHub: ComponentType<typeof Link> = {
     url: "https://github.com/haydncomley/nicee",
     isExternal: true
 }
+
+export const LinkBlog: ComponentType<typeof Link> = {
+    label: 'Blog',
+    url: "/blog",
+}
+
+export const LinkContact: ComponentType<typeof Link> = {
+    label: 'Contact',
+    url: "mailto:haydncomley@gmail.com",
+}

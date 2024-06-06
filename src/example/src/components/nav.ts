@@ -1,6 +1,6 @@
 import { component, computed, render } from "../../../nice";
 import { globalStore } from "../app";
-import { SocialGitHub } from "../data/links.data";
+import { LinkBlog, SocialGitHub } from "../data/links.data";
 import { Link } from "./link";
 
 import styles from './nav.module.scss'
@@ -14,7 +14,7 @@ export const Navigation = component(() => {
 
     return render`
         <nav class=${styles.nav} data-is-open=${isNavOpen}>
-            <button class=${styles.navButton} on-click=${toggleNav} title="Menu">
+            <button class=${styles.navButton} on-click=${toggleNav} title="Menu" tabindex="0">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                     <path d="M4 18L20 18" stroke-width="2" stroke-linecap="round"/>
                     <path d="M4 12L20 12" stroke-width="2" stroke-linecap="round"/>
@@ -29,7 +29,7 @@ export const Navigation = component(() => {
             <div class=${styles.navContent}>
                 ${Link({ label: 'Home', url: "/" })}
                 <span class=${styles.navDivide}>•</span>
-                ${Link({ label: 'Portfolio', url: "/work" })}
+                ${Link(LinkBlog)}
                 <span class=${styles.navDivide}>•</span>
                 ${Link(SocialGitHub)}
             </div>

@@ -21,5 +21,5 @@ export const Button = component<{
         <button class=${styles.button} on-click=${onButtonClick}>
             <span>${buttonLabel}</span>
         </button>
-    `
+    `;
 });

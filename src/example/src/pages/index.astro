@@ -1,7 +1,11 @@
 ---
 import "../reset.scss";
 import "../styles.scss";
-import { myApp } from "../app";
+import app from "../app";
+
+const path = Astro.url.pathname;
+
+console.log("Hello there", Astro.url.pathname);
 ---
 
 <html lang="en">
@@ -20,10 +24,11 @@ import { myApp } from "../app";
       rel="stylesheet"
     />
   </head>
-  <body set:html={myApp!.html} id={myApp!.id!}>
+  <body set:html={app(path)!.html} id={app()!.id}>
     <script>
-      import { myApp } from "../app";
-      myApp!.hydrate(myApp!.id);
+      import app from "../app";
+      const path = window.location.pathname;
+      app(path)!.hydrate(app()!.id);
     </script>
   </body>
 </html>

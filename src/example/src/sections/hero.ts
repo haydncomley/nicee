@@ -37,12 +37,12 @@ export const HeroSection = component(() => {
                 </div>
 
                 <div class=${styles.fullPageNote}>
-                    <small>made using a nicee framework</small>
-                    <span>Check it out now : ${Link(NiceeGitHub)}</span>
+                    <small>Can you guess the tech stack?</small>
+                    <span>It's open source so ${Link({ ...NiceeGitHub, label: 'take a look' })}</span>
                 </div>
 
                 <div class=${styles.fullPageFeature}>
-                    <p>Looking for something cool?</p>
+                    <p>Check-out my latest project!</p>
                     ${ProjectCard(FeaturedProject)}
                 </div>
             </div>

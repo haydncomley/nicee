@@ -2,7 +2,7 @@ import { component } from "./nice-component";
 import { render } from "./nice-renderer";
 import { nextId } from "./utils";
 
-export const app = (fn: () => ReturnType<typeof render> | void, selector?: string, ) => {
+export const app = (fn: () => ReturnType<typeof render> | void, selector?: string) => {
     
     const rootComponent = component(fn)();
     

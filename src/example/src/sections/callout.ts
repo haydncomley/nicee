@@ -19,9 +19,6 @@ export const CalloutSection = component<{
             const parent = mouseFollower.parentElement;
             const offset = parent!.getBoundingClientRect();
 
-            // const isTarget = e.target === mouseFollower || mouseFollower.parentElement!.contains(e.target as Node);
-            // console.log(e.target)
-
             mouseFollower.style.left = `${e.clientX - offset.x}px`;
             mouseFollower.style.top = `${e.clientY - offset.y}px`;
         }

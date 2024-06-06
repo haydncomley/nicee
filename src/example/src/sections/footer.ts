@@ -1,6 +1,6 @@
 import { component, render } from "../../../nice";
 import { Link } from "../components/link";
-import { SocialGitHub, SocialLinkedIn, SocialYouTube } from "../data/links.data";
+import { LinkBlog, LinkContact, SocialGitHub, SocialLinkedIn, SocialYouTube } from "../data/links.data";
 
 import styles from './footer.module.scss';
 
@@ -9,15 +9,14 @@ export const Footer = component(() => {
     return render`
         <footer class=${styles.footer}>
             <div class=${styles.footerInner}>
-                <h4 class=${styles.footerTitle}>Howdy,</h4>
-                <small class=${styles.footerInfo}>I hope you're finding everything you need.\nIf not then shoot me an email or send me a message.</small>
+                <h4 class=${styles.footerTitle}>Hey there!</h4>
+                <small class=${styles.footerInfo}>I hope you're finding everything you need,\nIf not then shoot me an email or send a message.</small>
 
                 <div class=${styles.footerContent}>
                     <div class=${styles.footerColumn}>
                         <p class=${styles.footerBody}>Quick Links</p>
-                        ${Link({ isExternal: true, label: 'Contact', url: "https://github.com/haydncomley" })}
-                        ${Link({ isExternal: true, label: 'Portfolio', url: "https://github.com/haydncomley" })}
-                        ${Link({ isExternal: true, label: 'Blog', url: "https://github.com/haydncomley" })}
+                        ${Link(LinkContact)}
+                        ${Link(LinkBlog)}
                     </div>
 
                     <div class=${styles.footerColumn}>

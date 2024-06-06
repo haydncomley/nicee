@@ -12,10 +12,8 @@
         transform: scale(0.95);
 
         .linkWiggle {
-            transform: translateY(calc(55% - .1em)) scaleY(0.75);
-
             &::after {
-                opacity: 0.5;
+                text-decoration-color: rgb(var(--theme-secondary), 1);
             }
         }
     }
@@ -32,7 +30,7 @@
         transform: translateY(-50%) translateX(0%);
     }
     100% {
-        transform: translateY(-50%) translateX(-0.6rem);
+        transform: translateY(-50%) translateX(calc(var(--theme-line-thickness) * -5));
     }
 }
 
@@ -56,9 +54,9 @@
         content: attr(data-label)attr(data-label);
         text-decoration: underline;
         text-decoration-style: wavy;
-        text-decoration-color: rgb(var(--theme-secondary));
+        text-decoration-color: rgb(var(--theme-secondary), 0.75);
         text-decoration-skip-ink: none;
-        text-decoration-thickness: .1rem;
+        text-decoration-thickness: var(--theme-line-thickness);
         transform: translateY(-50%);
         opacity: 0.75;
         transition: .1s ease;

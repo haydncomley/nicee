@@ -1,11 +1,6 @@
-import { app, render, store } from "../../nice";
-import { Navigation } from "./components/nav";
-import { ThemeWidget } from "./components/theme-widget";
-import { RecentProjects } from "./data/projects.data";
-import { CalloutSection } from "./sections/callout";
-import { Footer } from "./sections/footer";
-import { HeroSection } from "./sections/hero";
-import { ProjectShowcaseSection } from "./sections/project-showcase";
+import { app as niceApp, store } from "../../nice";
+import { Blog } from "./pages/blog";
+import { Home } from "./pages/home";
 
 export const globalStore = store({
     appName: 'haydn',
@@ -13,21 +8,13 @@ export const globalStore = store({
     globalCount: 0,
 });
 
-export const myApp = app(() => {
-    return render`
-          <main>
-                ${ThemeWidget()}
-                ${Navigation()}
-
-                ${HeroSection()}
-                
-                ${CalloutSection({ header: 'Hello World', subheader: 'This is some more content' })}
-                ${ProjectShowcaseSection({
-                    projects: RecentProjects,
-                    title: 'Recent Projects'
-                })}
-
-                ${Footer()}
-          </main>
-      `;
-  });
+export default (path?: string) => {
+    return niceApp(() => {
+        switch (path) {
+            default: 
+                return Home();
+            case '/blog':
+                return Blog();
+        }
+    });
+};
