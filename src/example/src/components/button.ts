@@ -1,10 +1,10 @@
-import { type NiceProp, type NiceState, component, computed, render, valueOf } from "../../../nice";
+import { type Prop, type State, component, computed, render, valueOf } from "../../../nice";
 
 import styles from './button.module.scss'
 
 export const Button = component<{
-    label: NiceProp<string>
-    onClick?: NiceState<MouseEvent>
+    label: Prop<string>
+    onClick?: State<MouseEvent>
 }>(({
     label,
     onClick,

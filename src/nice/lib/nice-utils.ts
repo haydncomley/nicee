@@ -1,6 +1,6 @@
 import { hasWindow } from "..";
 import { component } from "./nice-component";
-import { NiceProp } from "./nice-state";
+import { Prop } from "./nice-state";
 import { camelToKebab } from "./utils";
 
 export const mapper = <T = number>(data: T, fn: ((value: T extends Array<any> ? T[0] : T, index: number) => any)) => {
@@ -27,7 +27,7 @@ export const mapper = <T = number>(data: T, fn: ((value: T extends Array<any> ? 
     return isComponents ? mappedArray.reverse() : mappedArray;
 }
 
-export const valueOf = <T extends NiceProp<any>>(property: T): T extends NiceProp<infer U> ? U : never => {
+export const valueOf = <T extends Prop<any>>(property: T): T extends Prop<infer U> ? U : never => {
     return (typeof property === 'object' && Object.hasOwn(property as any, 'get')) ? (property as any).get() : property;
 }
 

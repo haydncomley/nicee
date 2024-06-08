@@ -1,10 +1,10 @@
-import { type NiceProp, component, render, ref, computed } from "../../../nice";
+import { type Prop, component, render, ref, computed } from "../../../nice";
 
 import styles from './callout.module.scss';
 
 export const CalloutSection = component<{
-    header: NiceProp<string>,
-    subheader?: NiceProp<string>,
+    header: Prop<string>,
+    subheader?: Prop<string>,
 }>(({ 
     header,
     subheader

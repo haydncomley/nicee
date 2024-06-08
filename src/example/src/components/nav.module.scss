@@ -113,9 +113,11 @@
         padding: 1.25rem;
         transform: translateX(100%);
         transition: .2s ease;
+        visibility: hidden;
 
         [data-is-open="true"] & {
             transform: translateX(0%);
+            visibility: visible;
         }
     };
 }

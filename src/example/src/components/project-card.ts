@@ -1,14 +1,14 @@
-import { component, render, type NiceProp, computed, valueOf } from "../../../nice";
+import { component, render, type Prop, computed, valueOf } from "../../../nice";
 
 import styles from './project-card.module.scss'
 
 export const ProjectCard = component<{
-    title: NiceProp<string>;
-    tag: NiceProp<string>;
-    image: NiceProp<string>;
-    techStack: NiceProp<string[]>;
-    link: NiceProp<string>;
-    isExternal?: NiceProp<boolean>;
+    title: Prop<string>;
+    tag: Prop<string>;
+    image: Prop<string>;
+    techStack: Prop<string[]>;
+    link: Prop<string>;
+    isExternal?: Prop<boolean>;
 }>(({
     title,
     tag,

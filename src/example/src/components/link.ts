@@ -1,11 +1,11 @@
-import { type NiceProp, component, computed, render, valueOf } from "../../../nice";
+import { type Prop, component, computed, render, valueOf } from "../../../nice";
 
 import styles from './link.module.scss'
 
 export const Link = component<{
-    label: NiceProp<string>
-    url: NiceProp<string>
-    isExternal?: NiceProp<boolean>
+    label: Prop<string>
+    url: Prop<string>
+    isExternal?: Prop<boolean>
 }>(({
     label,
     url,

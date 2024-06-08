@@ -1,0 +1,69 @@
+@use 'easy-theme' as theme;
+
+.colourPicker {
+    position: fixed;
+    inset: 0;
+    padding: var(--theme-border-radius);
+    padding-bottom: calc(var(--theme-border-radius) * 2 + 3rem);
+    border-radius: var(--theme-border-radius) var(--theme-border-radius) 0 0;
+    top: auto;
+    background: rgb(var(--theme-background));
+    border-top: solid var(--theme-border-thickness);
+    border-left: solid var(--theme-border-thickness);
+    border-right: solid var(--theme-border-thickness);
+    border-color: rgb(var(--theme-primary));
+    transition: 0.2s ease;
+    transform: translateY(100%);
+    visibility: hidden;
+
+    @include theme.NotMobile {
+        left: auto;
+        border-radius: var(--theme-border-radius) 0 0 var(--theme-border-radius);
+        border-right: none;
+        border-bottom: solid var(--theme-border-thickness);
+        border-color: rgb(var(--theme-primary));
+        bottom: 4.5rem;
+        padding-bottom: var(--theme-border-radius);
+        transform: translateX(100%);
+    }
+}
+
+.colourPickerInner {
+    width: 100%;
+    display: flex;
+    gap: calc(var(--theme-border-radius) * 0.75);
+    justify-content: space-evenly;
+}
+
+.colourPickerOpen {
+    transform: translateY(0%);
+    visibility: visible;
+
+    @include theme.NotMobile {
+        transform: translateX(0%);
+    }
+}
+
+.colourPickerItem {
+    aspect-ratio: 1 / 1;
+    flex: 1;
+    flex-shrink: 0;
+    background-color: var(--colour);
+    border-radius: var(--theme-border-radius);
+    border: none;
+    color: white;
+    font-weight: bold;
+    letter-spacing: .05em;
+    border: solid var(--theme-border-thickness) var(--colour);
+    transition: .2s ease;
+    cursor: pointer;
+
+    &.colourPickerItemSelected {
+        background-color: rgb(var(--theme-background));
+        color: rgb(var(--theme-primary));
+    }
+
+    @include theme.NotMobile {
+        width: 4rem;
+    }
+}

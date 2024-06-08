@@ -1,11 +1,11 @@
-import { NiceComponent, NiceNode } from "./nice-component";
-import { NiceState } from "./nice-state";
+import { Component, Node } from "./nice-component";
+import { State } from "./nice-state";
 
-export type NiceRenderTemplate = TemplateStringsArray;
-export type NiceRenderArgs = NiceNode[];
-export type NiceRenderFunctionReturn = ReturnType<typeof render>;
+export type RenderTemplate = TemplateStringsArray;
+export type RenderArgs = Node[];
+export type RenderFunctionReturn = ReturnType<typeof render>;
 
-export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) => {
+export const render = (template: RenderTemplate, ...args: RenderArgs) => {
     const debugRender = false;
     
     const doRender = (id: string) => {
@@ -16,7 +16,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
         if(debugRender) html += prefixComment;
 
         const childrenToReattach: Record<string, { html: string; hydrate: () => HTMLDivElement; }> = {};
-        const stateToReattach: Record<string, NiceState<any>> = {};
+        const stateToReattach: Record<string, State<any>> = {};
 
         template.forEach((block, index) => {
             let nextVar = args[index];
@@ -63,13 +63,13 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
 
             if (stateToRender) {
                 if (typeof stateToRender === 'object' && (stateToRender as any).type === 'component') {
-                    const newValueComponent = stateToRender as unknown as NiceComponent<any>;
+                    const newValueComponent = stateToRender as unknown as Component<any>;
                     value = newValueComponent.render(newValueComponent.id).html;
                 } else if (Array.isArray(stateToRender)) {
                     extraItems = stateToRender.length;
                     value = stateToRender.map((v) => {
                         if (typeof v === 'object' && (v as any).type === 'component') {
-                            const newValueComponent = v as unknown as NiceComponent<any>;
+                            const newValueComponent = v as unknown as Component<any>;
                             return newValueComponent.render(newValueComponent.id).html;
                         } else {
                             return v;
@@ -159,7 +159,7 @@ export const render = (template: NiceRenderTemplate, ...args: NiceRenderArgs) =>
     return doRender;
 }
 
-export const replaceNodesFrom = (value: unknown | NiceComponent<any>, start: Comment, end: Comment) => {
+export const replaceNodesFrom = (value: unknown | Component<any>, start: Comment, end: Comment) => {
     const childrenBetweenMarkers: (Text | HTMLElement)[] = [];
     let next: ChildNode | null | undefined = start.nextSibling;
 
@@ -169,7 +169,7 @@ export const replaceNodesFrom = (value: unknown | NiceComponent<any>, start: Com
     }
 
     if (value && typeof value === 'object' && (value as any).type === 'component') {
-        const newValueComponent = value as unknown as NiceComponent<any>;
+        const newValueComponent = value as unknown as Component<any>;
         const valueValue = newValueComponent.render(newValueComponent.id);
         childrenBetweenMarkers.forEach((node) => node!.remove());
         if (valueValue) Array.from(valueValue.hydrate().children).reverse().forEach((child) => start.after(child));
@@ -177,7 +177,7 @@ export const replaceNodesFrom = (value: unknown | NiceComponent<any>, start: Com
         const valueAsArray = Array.isArray(value) ? value : [value];
         const keys = valueAsArray.map((v) => {
             if (typeof v === 'object' && (v as any).type === 'component') {
-                const newValueComponent = v as unknown as NiceComponent<any>;
+                const newValueComponent = v as unknown as Component<any>;
                 return newValueComponent.key ?? newValueComponent.id;
             } else {
                 return undefined;
@@ -186,11 +186,9 @@ export const replaceNodesFrom = (value: unknown | NiceComponent<any>, start: Com
 
         const valuesToRender = valueAsArray.map((v) => {
             if (typeof v === 'object' && (v as any).type === 'component') {
-                console.log('RendernChild', v, v.properties);
-                const newValueComponent = v as unknown as NiceComponent<any>;
+                const newValueComponent = v as unknown as Component<any>;
                 const renderResult = newValueComponent.render(newValueComponent.id).hydrate();
                 if (renderResult.children[0] && v.key) renderResult.children[0].setAttribute('data-nice-key', v.key);
-                console.log(renderResult.children[0])
                 return renderResult;
             } else {
                 return v;

@@ -1,11 +1,11 @@
-import { component, render, type NiceProp, type ComponentType, computed, mapper, valueOf } from "../../../nice";
+import { component, render, type Prop, type ComponentType, computed, mapper, valueOf } from "../../../nice";
 import { ProjectCard } from "../components/project-card";
 
 import styles from './project-showcase.module.scss';
 
 export const ProjectShowcaseSection = component<{
-    title: NiceProp<string>,
-    projects: NiceProp<ComponentType<typeof ProjectCard>>[]
+    title: Prop<string>,
+    projects: Prop<ComponentType<typeof ProjectCard>>[]
 }>(({
     title,
     projects

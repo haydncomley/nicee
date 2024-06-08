@@ -4,7 +4,7 @@ import { Error } from "./app/error";
 import { Home } from "./app/home";
 
 export const globalStore = store({
-    appName: 'haydn',
+    appName: 'haydn comley',
     isNavOpen: false,
     globalCount: 0,
 });

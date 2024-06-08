@@ -1,10 +1,10 @@
-import { NiceRenderFunctionReturn } from "./nice-renderer";
-import { NiceState } from "./nice-state";
+import { RenderFunctionReturn } from "./nice-renderer";
+import { State } from "./nice-state";
 import { nextId, setParentId } from "./utils";
 
-export type NiceNode = NiceComponent<any> | NiceState<any>;
+export type Node = Component<any> | State<any>;
 
-export interface NiceComponent<T> {
+export interface Component<T> {
     type: 'component';
     id: string;
     key?: string;
@@ -13,9 +13,9 @@ export interface NiceComponent<T> {
     properties: T;
 }
 
-export type NiceComponentPropertyDefinitions = Record<string, any>;
+export type ComponentPropertyDefinitions = Record<string, any>;
 
-export const component = <T extends NiceComponentPropertyDefinitions | undefined = undefined>(fn: (props: T, key?: string) => NiceRenderFunctionReturn | void) => {
+export const component = <T extends ComponentPropertyDefinitions | undefined = undefined>(fn: (props: T, key?: string) => RenderFunctionReturn | void) => {
     let id = ''
 
     let isUpdating = false;
@@ -34,7 +34,7 @@ export const component = <T extends NiceComponentPropertyDefinitions | undefined
         }, 0);
     }
 
-    const func = (props: T, key?: string): NiceComponent<T> => {
+    const func = (props: T, key?: string): Component<T> => {
         id = nextId();
         setParentId(id);
         componentProps = (props ?? {}) as T;
@@ -47,8 +47,8 @@ export const component = <T extends NiceComponentPropertyDefinitions | undefined
             render,
             markDirty,
             key: key ?? id
-        }) as NiceComponent<T>
+        }) as Component<T>
     }
 
-    return func as T extends undefined ? () => NiceComponent<T> : (props: T, key?: string) => NiceComponent<T>;
+    return func as T extends undefined ? () => Component<T> : (props: T, key?: string) => Component<T>;
 };

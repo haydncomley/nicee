@@ -1,7 +1,7 @@
 import { replaceNodesFrom } from "./nice-renderer";
 import { nextId, serialiseDeps } from "./utils";
 
-export interface NiceState<T> {
+export interface State<T> {
     type: 'state';
     id: string;
     get: () => T;
@@ -12,9 +12,9 @@ export interface NiceState<T> {
     attributes: Record<string, HTMLElement[]>;
 }
 
-export type NiceProp<T> = T | NiceState<T>;
+export type Prop<T> = T | State<T>;
 
-export const state = <T = unknown>(value: T): NiceState<T> => {
+export const state = <T = unknown>(value: T): State<T> => {
     let _value = value;
     const id = nextId();
     const listeners: ((newValue: T) => void)[] = [];
@@ -57,7 +57,7 @@ export const state = <T = unknown>(value: T): NiceState<T> => {
     }
 }
 
-export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Event ? U : unknown) => T, deps?: (NiceState<any> | unknown)[]): NiceState<U extends Event ? U : T> => {
+export const computed = <U = unknown, T = undefined>(fn: (e: U) => T, deps?: (State<any> | unknown)[]): State<T extends undefined ? U : T> => {
     const _value = state<T>(undefined as T);
     const lastDeps: string | undefined = undefined;
     const niceDeps = (deps ?? []).map((x) => {
@@ -65,7 +65,7 @@ export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Eve
             return x;
         }
         return false;
-    }).filter(Boolean) as NiceState<any>[];
+    }).filter(Boolean) as State<any>[];
 
     const doCompute = (e?: any) => {
         const isEvent = !!e && !deps;
@@ -83,7 +83,7 @@ export const computed = <U = Event | unknown, T = unknown>(fn: (e: U extends Eve
         _value.listen(doCompute);
     }
 
-    return _value as NiceState<U extends Event ? U : T>;
+    return _value as State<T extends undefined ? U : T>;
 };
 
 export const ref = <T extends HTMLElement>(fn?: (element: T) => void) => {

@@ -1,4 +1,4 @@
-import { NiceState } from "../nice";
+import { State } from "../nice";
 
 export const nextId = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -20,7 +20,7 @@ export const getParentId = () => {
     return parentId;
 }
 
-export const serialiseDeps = (deps: NiceState<any>[]) => {
+export const serialiseDeps = (deps: State<any>[]) => {
     return deps.map((dep) => JSON.stringify(Object.hasOwn(dep, 'get') && dep.get())).join('');
 }
 
