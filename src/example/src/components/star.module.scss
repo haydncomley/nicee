@@ -34,6 +34,16 @@
     opacity: 0.5;
     transform-origin: 50% 50%;
     transition: .25s ease-out;
+
+    &:first-child {
+        left: 17.5% !important;
+        top: auto !important;
+        bottom: 45% !important;
+
+        @include theme.NotMobile {
+            bottom: 35% !important;
+        }
+    }
     
     &:hover {
         height: 2.5rem;

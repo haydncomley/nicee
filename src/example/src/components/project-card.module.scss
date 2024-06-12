@@ -1,12 +1,12 @@
 @keyframes breathe {
     0% {
-        transform: scale(1) rotate(-2deg);
+        transform: scale(1) rotate(-1deg);
     }
     50% {
-        transform: scale(1.05) rotate(2deg);
+        transform: scale(1.05) rotate(1deg);
     }
     100% {
-        transform: scale(1) rotate(-2deg);
+        transform: scale(1) rotate(-1deg);
     }
 }
 
