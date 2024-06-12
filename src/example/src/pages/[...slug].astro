@@ -6,8 +6,7 @@ import { colors } from "../components/colour-picker.ts";
 import { hexToRgb, shiftHue } from "../lib/utils";
 
 const path = Astro.url.pathname;
-const theme = Astro.cookies.get("theme")?.value || "#dd1364";
-console.log("Hello", theme);
+const theme = Astro.cookies.get("theme")?.value || colors[0].hex;
 
 const app = myApp({ path, theme })!;
 const primary = hexToRgb(theme);
@@ -33,13 +32,14 @@ const secondary = shiftHue(hexToRgb(theme), 0.2);
   <body set:html={app.html} id={app.id}>
     <script>
       import myApp from "../app";
+      import { colors } from "../components/colour-picker";
 
       const path = window.location.pathname;
       const theme =
         document.cookie
           .split("; ")
           .find((row) => row.startsWith("theme="))
-          ?.split("=")[1] ?? "#dd1364";
+          ?.split("=")[1] ?? colors[0].hex;
 
       const app = myApp({ path, theme })!;
       app.hydrate(app!.id);
