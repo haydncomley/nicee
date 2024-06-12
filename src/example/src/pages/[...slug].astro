@@ -1,9 +1,16 @@
 ---
 import "../reset.scss";
 import "../styles.scss";
-import app from "../app";
+import myApp from "../app";
+import { colors } from "../components/colour-picker.ts";
+import { hexToRgb, shiftHue } from "../lib/utils";
 
 const path = Astro.url.pathname;
+const theme = Astro.cookies.get("theme")?.value || colors[0].hex;
+
+const app = myApp({ path, theme })!;
+const primary = hexToRgb(theme);
+const secondary = shiftHue(hexToRgb(theme), 0.2);
 ---
 
 <html lang="en">
@@ -22,11 +29,25 @@ const path = Astro.url.pathname;
       rel="stylesheet"
     />
   </head>
-  <body set:html={app(path)!.html} id={app(path)!.id}>
+  <body set:html={app.html} id={app.id}>
     <script>
-      import app from "../app";
+      import myApp from "../app";
+
       const path = window.location.pathname;
-      app(path)!.hydrate(app(path)!.id);
+      const theme =
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("theme="))
+          ?.split("=")[1] ??
+        getComputedStyle(document.body).getPropertyValue("--theme-primary");
+
+      const app = myApp({ path, theme })!;
+      app.hydrate(app!.id);
     </script>
   </body>
 </html>
+
+<style
+  lang="scss"
+  define:vars={{ "theme-primary": primary, "theme-secondary": secondary }}
+></style>

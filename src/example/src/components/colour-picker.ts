@@ -2,7 +2,7 @@ import { component, computed, hasWindow, ref, render, state, type Prop, styler, 
 
 import styles from './colour-picker.module.scss'
 
-const colors = [
+export const colors = [
     { label: 'Red', hex: '#dd1364' },
     { label: 'Orange', hex: '#fccb19' },
     { label: 'Green', hex: '#07d907' },

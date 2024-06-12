@@ -1,4 +1,5 @@
-import { component, computed, hasWindow, ref, render, state } from "../../../nice";
+import { component, computed, hasWindow, ref, render, state, valueOf } from "../../../nice";
+import { globalStore } from "../app";
 import { hexToRgb, rgbToHex, shiftHue } from "../lib/utils";
 import { Button } from "./button";
 import { ColourPicker } from "./colour-picker";
@@ -6,41 +7,35 @@ import { ColourPicker } from "./colour-picker";
 import styles from './theme-widget.module.scss'
 
 export const ThemeWidget = component(() => {
-    const inputRef = ref<HTMLInputElement>();
-    const currentColor = state(hasWindow ? getComputedStyle(document.body).getPropertyValue('--theme-primary') : '');
-    const currentColorHex = computed(() => rgbToHex(currentColor.get()), [currentColor]);
+    const currentColor = globalStore('theme');
     const colourPickerOpen = state(false);
-
-    const onColorChange = computed<MouseEvent>((e) => {
-        const inputElement = e.target as HTMLInputElement;
-        currentColor.set(hexToRgb(inputElement.value));
-    });
 
     computed(() => {
         if (hasWindow) {
             const body = document.querySelector('body');
-            body!.style.setProperty('--theme-primary', currentColor.get());
-            body!.style.setProperty('--theme-secondary', shiftHue(currentColor.get(), .2));
+            body!.style.setProperty('--theme-primary', hexToRgb(valueOf(currentColor)));
+            body!.style.setProperty('--theme-secondary', shiftHue(hexToRgb(valueOf(currentColor)), .2));
         }
     }, [currentColor]);
 
+    const buttonLabel = computed(() => {
+        return valueOf(colourPickerOpen) ? 'Close' : 'Choose Theme' as string;
+    }, [colourPickerOpen]);
+
     const onClick = computed<MouseEvent>(() => {
-        const input = inputRef.get();
-        if (!input) return;
         colourPickerOpen.set(!colourPickerOpen.get());
     });
 
     const onChange = computed<string>((e) => {
-        console.log('On Change', e);
-        currentColor.set(hexToRgb(e));
+        document.cookie = `theme=${e}`;
+        currentColor.set(e);
         colourPickerOpen.set(false);
     });
 
     return render`
         <div class="${styles.themeWidget}">
-            ${Button({ label: 'Change Theme', onClick })}
-            <input type="color" ref=${inputRef} on-input=${onColorChange} set-value=${currentColorHex}>
-            ${ColourPicker({ isOpen: colourPickerOpen, onChange: onChange, selected: currentColorHex })}
+            ${Button({ label: buttonLabel, onClick })}
+            ${ColourPicker({ isOpen: colourPickerOpen, onChange: onChange, selected: currentColor })}
         </div>
     `
 });
