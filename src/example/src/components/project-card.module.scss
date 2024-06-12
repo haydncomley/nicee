@@ -14,7 +14,7 @@
     padding: 1rem;
     border-radius: var(--theme-border-radius);
     background-color: rgba(var(--theme-background), 1);
-    outline: var(--theme-border-thickness) solid rgba(var(--theme-secondary), 1);
+    outline: calc(var(--theme-border-thickness) * 1.5)solid rgba(var(--theme-secondary), 1);
     backdrop-filter: blur(.5rem);
     transform-origin: 50% 50%;
     transition: .1s ease;

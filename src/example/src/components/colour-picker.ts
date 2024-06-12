@@ -8,6 +8,7 @@ export const colors = [
     { label: 'Green', hex: '#07d907' },
     { label: 'Blue', hex: '#379bff' },
     { label: 'Indigo', hex: '#8334bc' },
+    { label: 'Slate', hex: '#6b6564' },
 ];
 
 export const ColourPicker = component<{
@@ -28,20 +29,23 @@ export const ColourPicker = component<{
         if (clickedHex) onChange?.set(clickedHex);
     })
 
-    const renderColours = computed(() => {
-        return mapper(colors, (colour) => {
-            const buttonClass = `${styles.colourPickerItem} ${colour.hex === valueOf(selected) ? styles.colourPickerItemSelected : ''}`
+    const Color = component<{ hex: string }>(({ hex }) => {
+        const buttonClass = computed(() => {
+            return `${styles.colourPickerItem} ${hex === valueOf(selected) ? styles.colourPickerItemSelected : ''}`;
+        }, [selected])
 
-            return render`
-            <button 
-                class=${buttonClass}
-                style="--colour: ${colour.hex};"
-                on-click=${onClick}
-                data-colour=${colour.hex}>
-                ${colour.label}
-            </button>
-            `;
-        });
+        return render`
+        <button 
+            class=${buttonClass}
+            style="--colour: ${hex};"
+            on-click=${onClick}
+            data-colour=${hex}>
+        </button>
+        `
+    });
+
+    const renderColours = computed(() => {
+        return mapper(colors, (colour) => Color({ hex: colour.hex }, colour.hex));
     }, [selected]);
 
     return render`

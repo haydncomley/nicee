@@ -4,48 +4,36 @@
     position: fixed;
     inset: 0;
     padding: var(--theme-border-radius);
-    padding-bottom: calc(var(--theme-border-radius) * 2 + 3rem);
-    border-radius: var(--theme-border-radius) var(--theme-border-radius) 0 0;
+    border-radius: var(--theme-border-radius) 0 0 var(--theme-border-radius);
     top: auto;
+    left: auto;
+    transform: translateX(100%);
+    bottom: 4.5rem;
     background: rgb(var(--theme-background));
     border-top: solid var(--theme-border-thickness);
     border-left: solid var(--theme-border-thickness);
-    border-right: solid var(--theme-border-thickness);
+    border-bottom: solid var(--theme-border-thickness);
     border-color: rgb(var(--theme-primary));
     transition: 0.2s ease;
-    transform: translateY(100%);
     visibility: hidden;
-
-    @include theme.NotMobile {
-        left: auto;
-        border-radius: var(--theme-border-radius) 0 0 var(--theme-border-radius);
-        border-right: none;
-        border-bottom: solid var(--theme-border-thickness);
-        border-color: rgb(var(--theme-primary));
-        bottom: 4.5rem;
-        padding-bottom: var(--theme-border-radius);
-        transform: translateX(100%);
-    }
 }
 
 .colourPickerInner {
     width: 100%;
     display: flex;
-    gap: calc(var(--theme-border-radius) * 0.75);
+    flex-direction: row-reverse;
+    gap: calc(var(--theme-border-radius) * 1);
     justify-content: space-evenly;
 }
 
 .colourPickerOpen {
-    transform: translateY(0%);
+    transform: translateX(0%);
     visibility: visible;
-
-    @include theme.NotMobile {
-        transform: translateX(0%);
-    }
 }
 
 .colourPickerItem {
     aspect-ratio: 1 / 1;
+    width: calc(var(--theme-border-radius) * 2);
     flex: 1;
     flex-shrink: 0;
     background-color: var(--colour);
@@ -58,12 +46,15 @@
     transition: .2s ease;
     cursor: pointer;
 
-    &.colourPickerItemSelected {
-        background-color: rgb(var(--theme-background));
-        color: rgb(var(--theme-primary));
+    &:hover {
+        transform: scale(1.05) rotateZ(0deg);
+        box-shadow: 0 0 calc(var(--theme-border-radius) * 0.5) 0 var(--colour);
     }
 
-    @include theme.NotMobile {
-        width: 4rem;
+    &.colourPickerItemSelected {
+        color: rgb(var(--theme-primary));
+        border-radius: calc(var(--theme-border-radius) * 0.5);
+        transform: scale(1.025) rotateZ(45deg);
+        box-shadow: 0 0 0 calc(var(--theme-border-thickness) * 1) rgb(var(--theme-background)), 0 0 0 calc(var(--theme-border-thickness) * 2) var(--colour);
     }
 }

@@ -7,7 +7,7 @@
     padding: 1rem;
     border-radius: var(--theme-border-radius);
     background-color: rgba(var(--theme-background), 1);
-    border: var(--theme-border-thickness) solid rgb(var(--theme-primary));
+    border: calc(var(--theme-border-thickness) * 1.5) solid rgb(var(--theme-primary));
     z-index: 5;
     display: flex;
     transition: .2s ease;
@@ -108,7 +108,7 @@
         gap: 0.5rem;
         border-radius: var(--theme-border-radius) 0 0 var(--theme-border-radius);
         background-color: rgba(var(--theme-background), 1);
-        border: var(--theme-border-thickness) solid rgb(var(--theme-secondary));
+        border: calc(var(--theme-border-thickness) * 1.5) solid rgb(var(--theme-secondary));
         border-right: none;
         padding: 1.25rem;
         transform: translateX(100%);

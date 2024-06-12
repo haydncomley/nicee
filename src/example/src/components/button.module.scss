@@ -15,6 +15,7 @@
     justify-content: center;
     -webkit-tap-highlight-color: transparent;
     box-shadow: 0 0.1rem 0.6rem rgba(var(--theme-primary), .3);
+    outline: 0.15rem solid rgb(var(--theme-background));
 
     transition: .2s ease;
 

@@ -29,7 +29,7 @@ export const ThemeWidget = component(() => {
     const onChange = computed<string>((e) => {
         document.cookie = `theme=${e}`;
         currentColor.set(e);
-        colourPickerOpen.set(false);
+        // colourPickerOpen.set(false);
     });
 
     return render`
