@@ -1,6 +1,6 @@
-import { NiceProp } from "./nice-state";
+import { Prop } from "./nice-state";
 export declare const mapper: <T = number>(data: T, fn: (value: T extends Array<any> ? T[0] : T, index: number) => any) => any[];
-export declare const valueOf: <T extends unknown>(property: T) => T extends NiceProp<infer U> ? U : never;
+export declare const valueOf: <T extends unknown>(property: T) => T extends Prop<infer U> ? U : never;
 export declare const styler: (styles: {
     [x: number]: string | undefined;
     accentColor?: string | undefined;

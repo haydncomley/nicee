@@ -1,9 +1,9 @@
-import { NiceComponent, NiceNode } from "./nice-component";
-export type NiceRenderTemplate = TemplateStringsArray;
-export type NiceRenderArgs = NiceNode[];
-export type NiceRenderFunctionReturn = ReturnType<typeof render>;
-export declare const render: (template: NiceRenderTemplate, ...args: NiceRenderArgs) => (id: string) => {
+import { Component, Node } from "./nice-component";
+export type RenderTemplate = TemplateStringsArray;
+export type RenderArgs = Node[];
+export type RenderFunctionReturn = ReturnType<typeof render>;
+export declare const render: (template: RenderTemplate, ...args: RenderArgs) => (id: string) => {
     html: string;
     hydrate: () => HTMLDivElement;
 };
-export declare const replaceNodesFrom: (value: unknown | NiceComponent<any>, start: Comment, end: Comment) => void;
+export declare const replaceNodesFrom: (value: unknown | Component<any>, start: Comment, end: Comment) => void;

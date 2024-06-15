@@ -1,8 +1,7 @@
-import { NiceProp } from "../nice";
-import { NiceRenderFunctionReturn } from "./nice-renderer";
-import { NiceState } from "./nice-state";
-export type NiceNode = NiceComponent<any> | NiceState<any>;
-export interface NiceComponent<T> {
+import { RenderFunctionReturn } from "./nice-renderer";
+import { State } from "./nice-state";
+export type Node = Component<any> | State<any>;
+export interface Component<T> {
     type: 'component';
     id: string;
     key?: string;
@@ -11,7 +10,7 @@ export interface NiceComponent<T> {
         hydrate: () => HTMLDivElement;
     };
     markDirty: () => void;
-    properties: NiceProp<T>;
+    properties: T;
 }
-export type NiceComponentPropertyDefinitions = Record<string, any>;
-export declare const component: <T extends NiceComponentPropertyDefinitions | undefined = undefined>(fn: (props: T, key?: string) => NiceRenderFunctionReturn | void) => T extends undefined ? () => NiceComponent<T> : (props: T, key?: string) => NiceComponent<T>;
+export type ComponentPropertyDefinitions = Record<string, any>;
+export declare const component: <T extends ComponentPropertyDefinitions | undefined = undefined>(fn: (props: T, key?: string) => RenderFunctionReturn | void) => T extends undefined ? () => Component<T> : (props: T, key?: string) => Component<T>;

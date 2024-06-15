@@ -1,4 +1,4 @@
-export interface NiceState<T> {
+export interface State<T> {
     type: 'state';
     id: string;
     get: () => T;
@@ -8,7 +8,7 @@ export interface NiceState<T> {
     markers: Comment[][];
     attributes: Record<string, HTMLElement[]>;
 }
-export type NiceProp<T> = T | NiceState<T>;
-export declare const state: <T = unknown>(value: T) => NiceState<T>;
-export declare const computed: <U = unknown, T = unknown>(fn: (e: U extends Event ? U : unknown) => T, deps?: (NiceState<any> | unknown)[]) => NiceState<U extends Event ? U : T>;
-export declare const ref: <T extends HTMLElement>(fn?: ((element: T) => void) | undefined) => NiceState<T extends Event ? T : T>;
+export type Prop<T> = T | State<T>;
+export declare const state: <T = unknown>(value: T) => State<T>;
+export declare const computed: <U = unknown, T = undefined>(fn: (e: U) => T, deps?: (State<any> | unknown)[]) => State<T extends undefined ? U : T>;
+export declare const ref: <T extends HTMLElement>(fn?: ((element: T) => void) | undefined) => State<T extends undefined ? T : T>;

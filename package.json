@@ -13,10 +13,11 @@
     "dev": "cd src/example && yarn dev",
     "build:example": "cd src/example && yarn build",
     "serve": "firebase emulators:start",
-    "make": "yarn make:types && yarn make:lib:cjs && yarn make:lib:esm",
+    "make": "yarn make:types && yarn make:lib:cjs && yarn make:lib:esm && yarn make:lib:browser",
     "make:types": "tsc --project ./tsconfig.out.json",
     "make:lib:cjs": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.cjs --format=cjs",
     "make:lib:esm": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.js --format=esm --platform=node",
+    "make:lib:browser": "esbuild ./src/nice/index.ts --bundle --minify --outfile=out/index.mjs --format=iife --platform=browser",
     "deploy": "yarn build:example  && firebase deploy --only=hosting"
   },
   "files": [
