@@ -1,4 +1,4 @@
-import { Component, Node } from "./nice-component";
+import type { Component, Node } from "./nice-component";
 import { State } from "./nice-state";
 
 export type RenderTemplate = TemplateStringsArray;
@@ -93,19 +93,27 @@ export const render = (template: RenderTemplate, ...args: RenderArgs) => {
                         for (let i = 0; i < parseInt(removeExtras); i++) el.previousSibling?.remove();
                     }
                     let value = stateToReattach[id].get();
+
+                    let prev = el.previousSibling;
+                    let next = el.nextSibling;
+
+                    while(prev && prev.nodeType !== Node.COMMENT_NODE) {
+                        prev = prev.previousSibling;
+                    }
     
                     stateToReattach[id].markers.push([
-                        el.previousSibling as Comment,
-                        el.nextSibling as Comment,
+                        prev as Comment,
+                        next as Comment,
                     ]);
     
-                    replaceNodesFrom(value, el.previousSibling as Comment, el.nextSibling as Comment);
+                    replaceNodesFrom(value, prev as Comment, next as Comment);
                 });
             });
     
             Object.keys(childrenToReattach).forEach((id) => {
                 htmlAsDom.querySelectorAll(`[data-reattach-child="${id}"]`).forEach((el) => {
-                    el.replaceWith((childrenToReattach[id].hydrate()).children[0]);
+                    const child = (childrenToReattach[id].hydrate()).children[0]
+                    el.replaceWith(child);
                 });
             });
     
@@ -168,6 +176,7 @@ export const replaceNodesFrom = (value: unknown | Component<any>, start: Comment
         next = next?.nextSibling;
     }
 
+
     if (value && typeof value === 'object' && (value as any).type === 'component') {
         const newValueComponent = value as unknown as Component<any>;
         const valueValue = newValueComponent.render(newValueComponent.id);
@@ -182,18 +191,21 @@ export const replaceNodesFrom = (value: unknown | Component<any>, start: Comment
             } else {
                 return undefined;
             }
-        }).filter((v) => v !== undefined);
+        }).filter((v) => v != undefined);
 
         const valuesToRender = valueAsArray.map((v) => {
-            if (typeof v === 'object' && (v as any).type === 'component') {
-                const newValueComponent = v as unknown as Component<any>;
+            let subValue = v;
+            if (typeof v === 'function') subValue = v();
+
+            if (typeof subValue === 'object' && (subValue as any).type === 'component') {
+                const newValueComponent = subValue as unknown as Component<any>;
                 const renderResult = newValueComponent.render(newValueComponent.id).hydrate();
-                if (renderResult.children[0] && v.key) renderResult.children[0].setAttribute('data-nice-key', v.key);
+                if (renderResult.children[0] && subValue.key) renderResult.children[0].setAttribute('data-nice-key', subValue.key);
                 return renderResult;
             } else {
-                return v;
+                return subValue;
             }
-        });
+        }).filter((v) => v != undefined);
 
         if (!keys.length) {
             childrenBetweenMarkers.forEach((node) => node!.remove());

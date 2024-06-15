@@ -1,5 +1,4 @@
 import { hasWindow } from "..";
-import { component } from "./nice-component";
 import { Prop } from "./nice-state";
 import { camelToKebab } from "./utils";
 
@@ -18,7 +17,7 @@ export const mapper = <T = number>(data: T, fn: ((value: T extends Array<any> ? 
         const result = fn(value, index);
         if (typeof result === 'function') {
             isComponents = true && hasWindow;
-            return component(() => result)();
+            return result();
         } else {
             return result;
         }

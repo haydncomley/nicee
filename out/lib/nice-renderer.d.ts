@@ -1,4 +1,4 @@
-import { Component, Node } from "./nice-component";
+import type { Component, Node } from "./nice-component";
 export type RenderTemplate = TemplateStringsArray;
 export type RenderArgs = Node[];
 export type RenderFunctionReturn = ReturnType<typeof render>;

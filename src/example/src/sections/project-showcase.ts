@@ -11,7 +11,7 @@ export const ProjectShowcaseSection = component<{
     projects
 }) => {
     const renderProjects = computed(() => {
-        return mapper(projects, (project) => render`<span>${ProjectCard(valueOf(project), valueOf(valueOf(project).title))}</span>`);
+        return mapper(projects, (project) => component(() => render`<span>${ProjectCard(valueOf(project), valueOf(valueOf(project).title))}</span>`));
     }, [projects]);
 
     return render`
